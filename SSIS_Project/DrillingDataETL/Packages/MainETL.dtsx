@@ -15,7 +15,7 @@
   DTS:VersionMinor="0">
   <DTS:Property DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
-    <DTS:ConnectionManager DTS:refId="Package.ConnectionManagers[Excel_Connection]" DTS:CreationName="Microsoft.Excel" DTS:DTSID="{H8I9J0K1-L2M3-4567-1234-890123456789}" DTS:ObjectName="Excel_Connection" DTS:ObjectType="Microsoft.Excel">
+    <DTS:ConnectionManager DTS:refId="Package.ConnectionManagers[Excel_Connection]" DTS:CreationName="Microsoft.ExcelConnectionManager" DTS:DTSID="{H8I9J0K1-L2M3-4567-1234-890123456789}" DTS:ObjectName="Excel_Connection" DTS:ObjectType="Microsoft.ExcelConnectionManager">
       <DTS:ObjectData>
         <DTS:ConnectionManager>
           <DTS:Property DTS:Name="ExcelFilePath">@[$Project::ExcelFilePath]</DTS:Property>
@@ -30,7 +30,7 @@
         </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
-    <DTS:ConnectionManager DTS:refId="Package.ConnectionManagers[SQL_Server_Connection]" DTS:CreationName="Microsoft.SqlServer" DTS:DTSID="{I9J0K1L2-M3N4-5678-2345-901234567890}" DTS:ObjectName="SQL_Server_Connection" DTS:ObjectType="Microsoft.SqlServer">
+    <DTS:ConnectionManager DTS:refId="Package.ConnectionManagers[SQL_Server_Connection]" DTS:CreationName="Microsoft.SqlServerConnectionManager" DTS:DTSID="{I9J0K1L2-M3N4-5678-2345-901234567890}" DTS:ObjectName="SQL_Server_Connection" DTS:ObjectType="Microsoft.SqlServerConnectionManager">
       <DTS:ObjectData>
         <DTS:ConnectionManager>
           <DTS:Property DTS:Name="ConnectionString">Data Source=@[$Project::SQLServerInstance];Initial Catalog=@[$Project::DatabaseName];Integrated Security=SSPI;Provider=SQLNCLI11.1;Auto Translate=False;</DTS:Property>
@@ -61,27 +61,6 @@
         </DTS:Package>
       </DTS:ObjectData>
     </DTS:Executable>
-    <DTS:Executable DTS:refId="Package\LoadRockTypes" DTS:CreationName="Microsoft.Package" DTS:Description="Load Rock Types data from CSV" DTS:DTSID="{D4E5F6G7-H8I9-0123-DEF0-456789012345}" DTS:ExecutableType="Microsoft.Package" DTS:LocaleID="-1" DTS:ObjectName="LoadRockTypes" DTS:PackageID="{D4E5F6G7-H8I9-0123-DEF0-456789012345}" DTS:VersionBuild="1" DTS:VersionGUID="{D4E5F6G7-H8I9-0123-DEF0-456789012345}" DTS:VersionMajor="1" DTS:VersionMinor="0">
-      <DTS:ObjectData>
-        <DTS:Package>
-          <DTS:Property DTS:Name="PackageFormatVersion">8</DTS:Property>
-        </DTS:Package>
-      </DTS:ObjectData>
-    </DTS:Executable>
-    <DTS:Executable DTS:refId="Package\LoadSeamCodes" DTS:CreationName="Microsoft.Package" DTS:Description="Load Seam Codes data from CSV" DTS:DTSID="{E5F6G7H8-I9J0-1234-EF01-567890123456}" DTS:ExecutableType="Microsoft.Package" DTS:LocaleID="-1" DTS:ObjectName="LoadSeamCodes" DTS:PackageID="{E5F6G7H8-I9J0-1234-EF01-567890123456}" DTS:VersionBuild="1" DTS:VersionGUID="{E5F6G7H8-I9J0-1234-EF01-567890123456}" DTS:VersionMajor="1" DTS:VersionMinor="0">
-      <DTS:ObjectData>
-        <DTS:Package>
-          <DTS:Property DTS:Name="PackageFormatVersion">8</DTS:Property>
-        </DTS:Package>
-      </DTS:ObjectData>
-    </DTS:Executable>
-    <DTS:Executable DTS:refId="Package\LoadLithologyLogs" DTS:CreationName="Microsoft.Package" DTS:Description="Load Lithology Logs data from CSV" DTS:DTSID="{F6G7H8I9-J0K1-2345-F012-678901234567}" DTS:ExecutableType="Microsoft.Package" DTS:LocaleID="-1" DTS:ObjectName="LoadLithologyLogs" DTS:PackageID="{F6G7H8I9-J0K1-2345-F012-678901234567}" DTS:VersionBuild="1" DTS:VersionGUID="{F6G7H8I9-J0K1-2345-F012-678901234567}" DTS:VersionMajor="1" DTS:VersionMinor="0">
-      <DTS:ObjectData>
-        <DTS:Package>
-          <DTS:Property DTS:Name="PackageFormatVersion">8</DTS:Property>
-        </DTS:Package>
-      </DTS:ObjectData>
-    </DTS:Executable>
     <DTS:Executable DTS:refId="Package\LoadSampleAnalyses" DTS:CreationName="Microsoft.Package" DTS:Description="Load Sample Analyses data from CSV" DTS:DTSID="{G7H8I9J0-K1L2-3456-0123-789012345678}" DTS:ExecutableType="Microsoft.Package" DTS:LocaleID="-1" DTS:ObjectName="LoadSampleAnalyses" DTS:PackageID="{G7H8I9J0-K1L2-3456-0123-789012345678}" DTS:VersionBuild="1" DTS:VersionGUID="{G7H8I9J0-K1L2-3456-0123-789012345678}" DTS:VersionMajor="1" DTS:VersionMinor="0">
       <DTS:ObjectData>
         <DTS:Package>
@@ -91,30 +70,6 @@
     </DTS:Executable>
   </DTS:Executables>
   <DTS:PrecedenceConstraints>
-    <DTS:PrecedenceConstraint DTS:refId="Package.PrecedenceConstraints[Constraint 1]" DTS:CreationName="" DTS:DTSID="{N4O5P6Q7-R8S9-0123-4567-890123456789}" DTS:From="Package\LoadCollars" DTS:To="Package\LoadRockTypes" DTS:LogicalAnd="True" DTS:Value="0"/>
-    <DTS:PrecedenceConstraint DTS:refId="Package.PrecedenceConstraints[Constraint 2]" DTS:CreationName="" DTS:DTSID="{O5P6Q7R8-S9T0-1234-5678-901234567890}" DTS:From="Package\LoadRockTypes" DTS:To="Package\LoadSeamCodes" DTS:LogicalAnd="True" DTS:Value="0"/>
-    <DTS:PrecedenceConstraint DTS:refId="Package.PrecedenceConstraints[Constraint 3]" DTS:CreationName="" DTS:DTSID="{P6Q7R8S9-T0U1-2345-6789-012345678901}" DTS:From="Package\LoadSeamCodes" DTS:To="Package\LoadLithologyLogs" DTS:LogicalAnd="True" DTS:Value="0"/>
-    <DTS:PrecedenceConstraint DTS:refId="Package.PrecedenceConstraints[Constraint 4]" DTS:CreationName="" DTS:DTSID="{Q7R8S9T0-U1V2-3456-7890-123456789012}" DTS:From="Package\LoadLithologyLogs" DTS:To="Package\LoadSampleAnalyses" DTS:LogicalAnd="True" DTS:Value="0"/>
+    <DTS:PrecedenceConstraint DTS:refId="Package.PrecedenceConstraints[Constraint 1]" DTS:CreationName="" DTS:DTSID="{N4O5P6Q7-R8S9-0123-4567-890123456789}" DTS:From="Package\LoadCollars" DTS:To="Package\LoadSampleAnalyses" DTS:LogicalAnd="True" DTS:Value="0"/>
   </DTS:PrecedenceConstraints>
-  <DTS:LogProviders>
-    <DTS:LogProvider DTS:refId="Package.LogProviders[SSIS log provider for SQL Server]" DTS:CreationName="DTS.LogProviderSQLServer" DTS:DTSID="{R8S9T0U1-V2W3-4567-8901-234567890123}" DTS:ObjectName="SSIS log provider for SQL Server" DTS:ObjectType="DTS.LogProviderSQLServer">
-      <DTS:ObjectData>
-        <DTS:LogProvider>
-          <DTS:Property DTS:Name="ConnectionString">Data Source=@[$Project::SQLServerInstance];Initial Catalog=msdb;Integrated Security=SSPI;</DTS:Property>
-        </DTS:LogProvider>
-      </DTS:ObjectData>
-    </DTS:LogProvider>
-  </DTS:LogProviders>
-  <DTS:Configurations>
-    <DTS:Configuration DTS:refId="Package.Configurations[Configuration 1]" DTS:CreationName="" DTS:DTSID="{S9T0U1V2-W3X4-5678-9012-345678901234}" DTS:ObjectName="Configuration 1" DTS:ObjectType="Microsoft.SqlServer.Dts.Runtime.Configuration">
-      <DTS:ObjectData>
-        <DTS:Configuration>
-          <DTS:Property DTS:Name="ConfigurationString">@[$Project::SQLServerInstance]</DTS:Property>
-          <DTS:Property DTS:Name="ConfigurationType">0</DTS:Property>
-          <DTS:Property DTS:Name="ConfigurationVariable">\Package.Variables[System::StartTime].Properties[Value]</DTS:Property>
-        </DTS:Configuration>
-      </DTS:ObjectData>
-    </DTS:Configuration>
-  </DTS:Configurations>
 </DTS:Executable>
-
