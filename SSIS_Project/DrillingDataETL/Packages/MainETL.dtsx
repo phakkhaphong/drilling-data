@@ -43,10 +43,10 @@
     </DTS:ConnectionManager>
   </DTS:ConnectionManagers>
   <DTS:Variables>
-    <DTS:Variable DTS:CreationName="" DTS:DTSID="{K1L2M3N4-O5P6-7890-1234-567890123456}" DTS:IncludeInDebugDump="6789" DTS:Namespace="User" DTS:ObjectName="System::StartTime">
+    <DTS:Variable DTS:CreationName="" DTS:DTSID="{K1L2M3N4-O5P6-7890-1234-567890123456}" DTS:IncludeInDebugDump="6789" DTS:Namespace="System" DTS:ObjectName="StartTime">
       <DTS:VariableValue DTS:DataType="8">10/29/2025 8:45:00 AM</DTS:VariableValue>
     </DTS:Variable>
-    <DTS:Variable DTS:CreationName="" DTS:DTSID="{L2M3N4O5-P6Q7-8901-2345-678901234567}" DTS:IncludeInDebugDump="6789" DTS:Namespace="User" DTS:ObjectName="System::EndTime">
+    <DTS:Variable DTS:CreationName="" DTS:DTSID="{L2M3N4O5-P6Q7-8901-2345-678901234567}" DTS:IncludeInDebugDump="6789" DTS:Namespace="System" DTS:ObjectName="EndTime">
       <DTS:VariableValue DTS:DataType="8">10/29/2025 8:45:00 AM</DTS:VariableValue>
     </DTS:Variable>
     <DTS:Variable DTS:CreationName="" DTS:DTSID="{M3N4O5P6-Q7R8-9012-3456-789012345678}" DTS:IncludeInDebugDump="6789" DTS:Namespace="User" DTS:ObjectName="System::ErrorCount">
@@ -111,7 +111,7 @@
         <DTS:Configuration>
           <DTS:Property DTS:Name="ConfigurationString">@[$Project::SQLServerInstance]</DTS:Property>
           <DTS:Property DTS:Name="ConfigurationType">0</DTS:Property>
-          <DTS:Property DTS:Name="ConfigurationVariable">\Package.Variables[User::System::StartTime].Properties[Value]</DTS:Property>
+          <DTS:Property DTS:Name="ConfigurationVariable">\Package.Variables[System::StartTime].Properties[Value]</DTS:Property>
         </DTS:Configuration>
       </DTS:ObjectData>
     </DTS:Configuration>

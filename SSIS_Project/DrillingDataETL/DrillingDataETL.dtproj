@@ -85,17 +85,17 @@
     <ConnectionManager Include="Connections\Excel_Connection.conmgr">
       <ObjectName>Excel_Connection</ObjectName>
       <DTSID>{H8I9J0K1-L2M3-4567-1234-890123456789}</DTSID>
-      <ObjectType>Microsoft.ExcelConnectionManager</ObjectType>
+      <ObjectType>Microsoft.Excel</ObjectType>
     </ConnectionManager>
     <ConnectionManager Include="Connections\SQL_Server_Connection.conmgr">
       <ObjectName>SQL_Server_Connection</ObjectName>
       <DTSID>{I9J0K1L2-M3N4-5678-2345-901234567890}</DTSID>
-      <ObjectType>Microsoft.SqlServerConnectionManager</ObjectType>
+      <ObjectType>Microsoft.SqlServer</ObjectType>
     </ConnectionManager>
     <ConnectionManager Include="Connections\CSV_Connection.conmgr">
       <ObjectName>CSV_Connection</ObjectName>
       <DTSID>{J0K1L2M3-N4O5-6789-3456-012345678901}</DTSID>
-      <ObjectType>Microsoft.FlatFileConnectionManager</ObjectType>
+      <ObjectType>Microsoft.FlatFile</ObjectType>
     </ConnectionManager>
   </ItemGroup>
   

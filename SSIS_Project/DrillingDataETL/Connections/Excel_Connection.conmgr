@@ -2,8 +2,8 @@
 <DTS:ConnectionManager xmlns:DTS="www.microsoft.com/SqlServer/Dts"
   DTS:ObjectName="Excel_Connection"
   DTS:DTSID="{H8I9J0K1-L2M3-4567-1234-890123456789}"
-  DTS:ObjectType="Microsoft.ExcelConnectionManager"
-  DTS:CreationName="Microsoft.ExcelConnectionManager"
+  DTS:ObjectType="Microsoft.Excel"
+  DTS:CreationName="Microsoft.Excel"
   DTS:Description="Connection to Excel file containing drilling data"
   DTS:Version="1">
   <DTS:Property DTS:Name="ExcelFilePath" DTS:DataType="8" DTS:Description="The path to the Excel file." DTS:IncludeInDebugDump="6789">data/raw/DH70.xlsx</DTS:Property>

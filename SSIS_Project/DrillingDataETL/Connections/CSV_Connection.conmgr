@@ -2,8 +2,8 @@
 <DTS:ConnectionManager xmlns:DTS="www.microsoft.com/SqlServer/Dts"
   DTS:ObjectName="CSV_Connection"
   DTS:DTSID="{J0K1L2M3-N4O5-6789-3456-012345678901}"
-  DTS:ObjectType="Microsoft.FlatFileConnectionManager"
-  DTS:CreationName="Microsoft.FlatFileConnectionManager"
+  DTS:ObjectType="Microsoft.FlatFile"
+  DTS:CreationName="Microsoft.FlatFile"
   DTS:Description="Connection to CSV files"
   DTS:Version="1">
   <DTS:Property DTS:Name="ConnectionString" DTS:DataType="8" DTS:Description="The connection string." DTS:IncludeInDebugDump="6789">data/processed</DTS:Property>
