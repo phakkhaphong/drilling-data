@@ -132,6 +132,46 @@ WHERE hole_id = 'BC01C';
 - SQLite3
 - openpyxl (for Excel processing)
 
+## WSL Migration
+
+This project can be run in WSL (Windows Subsystem for Linux) for better performance and Linux compatibility.
+
+### Quick WSL Setup
+```bash
+# 1. Copy project to WSL
+cp -r C:\mySources\Code\Hongsa ~/drilling_database
+
+# 2. Open WSL terminal
+wsl
+cd ~/drilling_database
+
+# 3. Run setup script
+chmod +x wsl_setup.sh
+./wsl_setup.sh
+
+# 4. Test the setup
+./wsl_test.sh
+```
+
+### Manual WSL Setup
+```bash
+# Install dependencies
+sudo apt update
+sudo apt install python3 python3-pip python3-venv sqlite3
+
+# Create virtual environment
+python3 -m venv drilling_env
+source drilling_env/bin/activate
+
+# Install packages
+pip install polars openpyxl
+
+# Run project
+python3 create_drilling_database.py
+```
+
+See `WSL_MIGRATION_GUIDE.md` for detailed instructions.
+
 ## Status
 ✅ **FINAL VERSION - Ready for Production Use**
 
