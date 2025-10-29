@@ -18,4 +18,3 @@
   <DTS:Property DTS:Name="TextQualifier" DTS:DataType="8" DTS:Description="The text qualifier." DTS:IncludeInDebugDump="6789">"</DTS:Property>
   <DTS:Property DTS:Name="CodePage" DTS:DataType="3" DTS:Description="The code page." DTS:IncludeInDebugDump="6789">1252</DTS:Property>
 </DTS:ConnectionManager>
-
