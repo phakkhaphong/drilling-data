@@ -135,6 +135,7 @@ drilling_database.db
 *.csv
 !data/processed/*.csv
 !data/raw/*.xlsx
+data/raw/DH70.xlsx
 
 # IDE
 .vscode/

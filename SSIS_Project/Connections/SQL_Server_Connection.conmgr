@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DTS:ConnectionManager xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:ObjectName="SQL_Server_Connection"
+  DTS:DTSID="{I9J0K1L2-M3N4-5678-2345-901234567890}"
+  DTS:ObjectType="Microsoft.SqlServer"
+  DTS:CreationName="Microsoft.SqlServer"
+  DTS:Description="Connection to SQL Server database"
+  DTS:Version="1">
+  <DTS:Property DTS:Name="ConnectionString" DTS:DataType="8" DTS:Description="The connection string." DTS:IncludeInDebugDump="6789">Data Source=localhost;Initial Catalog=DrillingDatabase;Integrated Security=SSPI;Provider=SQLNCLI11.1;Auto Translate=False;</DTS:Property>
+  <DTS:Property DTS:Name="ConnectionStringExpression" DTS:DataType="8" DTS:Description="The connection string expression." DTS:IncludeInDebugDump="6789"></DTS:Property>
+  <DTS:Property DTS:Name="Database" DTS:DataType="8" DTS:Description="The database name." DTS:IncludeInDebugDump="6789">DrillingDatabase</DTS:Property>
+  <DTS:Property DTS:Name="RetainSameConnection" DTS:DataType="11" DTS:Description="Retain same connection." DTS:IncludeInDebugDump="6789">False</DTS:Property>
+  <DTS:Property DTS:Name="ServerName" DTS:DataType="8" DTS:Description="The server name." DTS:IncludeInDebugDump="6789">localhost</DTS:Property>
+  <DTS:Property DTS:Name="UseWindowsAuthentication" DTS:DataType="11" DTS:Description="Use Windows authentication." DTS:IncludeInDebugDump="6789">True</DTS:Property>
+</DTS:ConnectionManager>
