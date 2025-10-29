@@ -166,5 +166,16 @@
     </ProjectParameter>
   </ItemGroup>
   
-  <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSIS\Microsoft.SQLServer.IntegrationServices.Build.targets" />
+  <Target Name="Build">
+    <Message Text="Building SSIS Project: $(MSBuildProjectName)" Importance="high" />
+  </Target>
+  
+  <Target Name="Rebuild">
+    <Message Text="Rebuilding SSIS Project: $(MSBuildProjectName)" Importance="high" />
+  </Target>
+  
+  <Target Name="Clean">
+    <Message Text="Cleaning SSIS Project: $(MSBuildProjectName)" Importance="high" />
+  </Target>
+  
 </Project>
