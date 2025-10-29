@@ -17,6 +17,7 @@
     <TargetDatabaseVersion>SQLServer2022</TargetDatabaseVersion>
     <ProtectionLevel>DontSaveSensitive</ProtectionLevel>
   </PropertyGroup>
+  
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|Default' ">
     <OutputPath>bin\Debug\</OutputPath>
     <SuppressConfigurationWarnings>False</SuppressConfigurationWarnings>
@@ -31,6 +32,7 @@
     <RefactorTargetServer>True</RefactorTargetServer>
     <RestrictedPermissions>False</RestrictedPermissions>
   </PropertyGroup>
+  
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|Default' ">
     <OutputPath>bin\Release\</OutputPath>
     <SuppressConfigurationWarnings>False</SuppressConfigurationWarnings>
@@ -45,6 +47,7 @@
     <RefactorTargetServer>True</RefactorTargetServer>
     <RestrictedPermissions>False</RestrictedPermissions>
   </PropertyGroup>
+  
   <ItemGroup>
     <Package Include="Packages\MainETL.dtsx">
       <DTSID>{B2C3D4E5-F6G7-8901-BCDE-F23456789012}</DTSID>
@@ -77,6 +80,7 @@
       <VersionRevision>0</VersionRevision>
     </Package>
   </ItemGroup>
+  
   <ItemGroup>
     <ConnectionManager Include="Connections\Excel_Connection.conmgr">
       <ObjectName>Excel_Connection</ObjectName>
@@ -94,6 +98,7 @@
       <ObjectType>Microsoft.FlatFile</ObjectType>
     </ConnectionManager>
   </ItemGroup>
+  
   <ItemGroup>
     <ProjectParameter Include="ExcelFilePath">
       <Name>ExcelFilePath</Name>
@@ -161,6 +166,17 @@
     </ProjectParameter>
   </ItemGroup>
   
-  <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSIS\Microsoft.SQLServer.IntegrationServices.Build.targets" Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSIS\Microsoft.SQLServer.IntegrationServices.Build.targets')" />
-  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSIS\Microsoft.SQLServer.IntegrationServices.Build.targets" Condition="!Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSIS\Microsoft.SQLServer.IntegrationServices.Build.targets') And Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSIS\Microsoft.SQLServer.IntegrationServices.Build.targets')" />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />
+  
+  <Target Name="Build">
+    <Message Text="Building SSIS Project: $(Name)" Importance="high" />
+  </Target>
+  
+  <Target Name="Rebuild">
+    <CallTarget Targets="Clean;Build" />
+  </Target>
+  
+  <Target Name="Clean">
+    <Message Text="Cleaning SSIS Project: $(Name)" Importance="high" />
+  </Target>
 </Project>
