@@ -46,7 +46,7 @@
     <RestrictedPermissions>False</RestrictedPermissions>
   </PropertyGroup>
   <ItemGroup>
-    <Package Include="MainETL.dtsx">
+    <Package Include="..\Packages\MainETL.dtsx">
       <DTSID>{B2C3D4E5-F6G7-8901-BCDE-F23456789012}</DTSID>
       <CreationName></CreationName>
       <ObjectName>MainETL</ObjectName>
@@ -56,7 +56,7 @@
       <VersionMinor>0</VersionMinor>
       <VersionRevision>0</VersionRevision>
     </Package>
-    <Package Include="LoadCollars.dtsx">
+    <Package Include="..\Packages\LoadCollars.dtsx">
       <DTSID>{C3D4E5F6-G7H8-9012-CDEF-345678901234}</DTSID>
       <CreationName></CreationName>
       <ObjectName>LoadCollars</ObjectName>
@@ -66,7 +66,7 @@
       <VersionMinor>0</VersionMinor>
       <VersionRevision>0</VersionRevision>
     </Package>
-    <Package Include="LoadSampleAnalyses.dtsx">
+    <Package Include="..\Packages\LoadSampleAnalyses.dtsx">
       <DTSID>{G7H8I9J0-K1L2-3456-0123-789012345678}</DTSID>
       <CreationName></CreationName>
       <ObjectName>LoadSampleAnalyses</ObjectName>
@@ -78,17 +78,17 @@
     </Package>
   </ItemGroup>
   <ItemGroup>
-    <ConnectionManager Include="Excel_Connection.conmgr">
+    <ConnectionManager Include="..\Connections\Excel_Connection.conmgr">
       <ObjectName>Excel_Connection</ObjectName>
       <DTSID>{H8I9J0K1-L2M3-4567-1234-890123456789}</DTSID>
       <ObjectType>Microsoft.Excel</ObjectType>
     </ConnectionManager>
-    <ConnectionManager Include="SQL_Server_Connection.conmgr">
+    <ConnectionManager Include="..\Connections\SQL_Server_Connection.conmgr">
       <ObjectName>SQL_Server_Connection</ObjectName>
       <DTSID>{I9J0K1L2-M3N4-5678-2345-901234567890}</DTSID>
       <ObjectType>Microsoft.SqlServer</ObjectType>
     </ConnectionManager>
-    <ConnectionManager Include="CSV_Connection.conmgr">
+    <ConnectionManager Include="..\Connections\CSV_Connection.conmgr">
       <ObjectName>CSV_Connection</ObjectName>
       <DTSID>{J0K1L2M3-N4O5-6789-3456-012345678901}</DTSID>
       <ObjectType>Microsoft.FlatFile</ObjectType>
