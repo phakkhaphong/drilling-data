@@ -210,27 +210,29 @@ WHERE ash IS NOT NULL;
 
 -- Query 13: ระบุหลุมเจาะที่มีข้อมูลไม่ครบถ้วน (Identify Incomplete Data Holes)
 -- Purpose: ค้นหาหลุมเจาะที่ขาดข้อมูลธรณีวิทยาและ/หรือการวิเคราะห์ตัวอย่าง (Locate holes missing geological or analytical data)
-SELECT 
-      c.hole_id
-,     c.total_depth
-,     COALESCE(l.log_count, 0) as lithology_count
-,     COALESCE(s.sample_count, 0) as sample_count
-FROM collars c
-LEFT JOIN (
+WITH lithology_counts AS (
     SELECT 
           hole_id
     ,     COUNT(*) as log_count
     FROM lithology_logs
     GROUP BY hole_id
-) l ON c.hole_id = l.hole_id
-LEFT JOIN (
+),
+sample_counts AS (
     SELECT 
           hole_id
     ,     COUNT(*) as sample_count
     FROM sample_analyses
     WHERE ash IS NOT NULL
     GROUP BY hole_id
-) s ON c.hole_id = s.hole_id
+)
+SELECT 
+      c.hole_id
+,     c.total_depth
+,     COALESCE(l.log_count, 0) as lithology_count
+,     COALESCE(s.sample_count, 0) as sample_count
+FROM collars c
+LEFT JOIN lithology_counts l ON c.hole_id = l.hole_id
+LEFT JOIN sample_counts s ON c.hole_id = s.hole_id
 WHERE l.log_count IS NULL OR s.sample_count IS NULL
 ORDER BY c.hole_id;
 
@@ -303,10 +305,259 @@ WHERE avg_ash < 30 AND avg_cv > 2500
 ORDER BY total_coal_thickness DESC;
 
 -- =====================================================
+-- ADVANCED QUERIES: Using Table Valued Functions & CROSS APPLY
+-- =====================================================
+
+-- Query 16: สร้าง Table Valued Function สำหรับคำนวณคุณภาพถ่านหิน (Coal Quality Calculation TVF)
+-- Purpose: สร้างฟังก์ชันที่คำนวณคุณภาพถ่านหินตามเกณฑ์ที่กำหนด
+--          (Create function to calculate coal quality based on specified criteria)
+IF OBJECT_ID('fn_GetCoalQualityMetrics', 'TF') IS NOT NULL DROP FUNCTION fn_GetCoalQualityMetrics;
+GO
+
+CREATE FUNCTION fn_GetCoalQualityMetrics(@hole_id NVARCHAR(50))
+RETURNS TABLE
+AS
+RETURN
+(
+    SELECT 
+          @hole_id as hole_id
+    ,     COUNT(*) as sample_count
+    ,     ROUND(AVG(ash), 2) as avg_ash
+    ,     ROUND(AVG(gross_cv), 0) as avg_cv
+    ,     ROUND(AVG(sulphur), 2) as avg_sulphur
+    ,     ROUND(AVG(vm), 2) as avg_vm
+    ,     ROUND(AVG(fc), 2) as avg_fc
+    ,     ROUND(MIN(ash), 2) as min_ash
+    ,     ROUND(MAX(ash), 2) as max_ash
+    ,     ROUND(MIN(gross_cv), 0) as min_cv
+    ,     ROUND(MAX(gross_cv), 0) as max_cv
+    ,     CASE 
+            WHEN AVG(ash) < 15 THEN 'Premium'
+            WHEN AVG(ash) < 25 THEN 'High'
+            WHEN AVG(ash) < 35 THEN 'Medium'
+            ELSE 'Low'
+          END as quality_grade
+    FROM sample_analyses
+    WHERE hole_id = @hole_id
+        AND ash IS NOT NULL
+        AND gross_cv IS NOT NULL
+);
+GO
+
+-- Query 17: ใช้ CROSS APPLY กับ Table Valued Function (Using CROSS APPLY with TVF)
+-- Purpose: ใช้ CROSS APPLY เพื่อเรียกใช้ TVF สำหรับแต่ละหลุมเจาะ
+--          (Use CROSS APPLY to call TVF for each drilling hole)
+SELECT 
+      c.hole_id
+,     c.easting
+,     c.northing
+,     c.elevation
+,     c.total_depth
+,     c.year_drilled
+,     c.geologist
+,     q.sample_count
+,     q.avg_ash
+,     q.avg_cv
+,     q.avg_sulphur
+,     q.quality_grade
+,     q.min_ash
+,     q.max_ash
+FROM collars c
+CROSS APPLY fn_GetCoalQualityMetrics(c.hole_id) q
+WHERE q.sample_count > 0
+ORDER BY q.avg_cv DESC;
+
+-- Query 18: สร้าง Table Valued Function สำหรับวิเคราะห์ความหนาชั้นหิน (Lithology Thickness Analysis TVF)
+-- Purpose: สร้างฟังก์ชันที่วิเคราะห์ความหนาของแต่ละชนิดหินในหลุมเจาะ
+--          (Create function to analyze rock type thickness in drilling holes)
+IF OBJECT_ID('fn_GetLithologyThickness', 'TF') IS NOT NULL DROP FUNCTION fn_GetLithologyThickness;
+GO
+
+CREATE FUNCTION fn_GetLithologyThickness(@hole_id NVARCHAR(50))
+RETURNS TABLE
+AS
+RETURN
+(
+    SELECT 
+          @hole_id as hole_id
+    ,     l.rock_code
+    ,     r.rock_name
+    ,     COUNT(*) as interval_count
+    ,     ROUND(SUM(l.thickness), 2) as total_thickness
+    ,     ROUND(AVG(l.thickness), 2) as avg_thickness
+    ,     ROUND(MIN(l.thickness), 2) as min_thickness
+    ,     ROUND(MAX(l.thickness), 2) as max_thickness
+    ,     ROUND(SUM(CASE WHEN l.rock_code IN ('LI', 'CLLI') THEN l.thickness ELSE 0 END), 2) as coal_thickness
+    ,     ROUND(SUM(CASE WHEN l.rock_code NOT IN ('LI', 'CLLI', 'LICL') THEN l.thickness ELSE 0 END), 2) as overburden_thickness
+    FROM lithology_logs l
+    LEFT JOIN rock_types r ON l.rock_code = r.rock_code
+    WHERE l.hole_id = @hole_id
+    GROUP BY l.rock_code, r.rock_name
+);
+GO
+
+-- Query 19: ใช้ CROSS APPLY กับ Lithology TVF (Using CROSS APPLY with Lithology TVF)
+-- Purpose: วิเคราะห์ความหนาชั้นหินสำหรับหลุมเจาะที่มีข้อมูลครบถ้วน
+--          (Analyze rock thickness for holes with complete data)
+SELECT 
+      c.hole_id
+,     c.easting
+,     c.northing
+,     c.total_depth
+,     c.year_drilled
+,     l.rock_code
+,     l.rock_name
+,     l.interval_count
+,     l.total_thickness
+,     l.avg_thickness
+,     l.coal_thickness
+,     l.overburden_thickness
+,     CASE 
+        WHEN l.overburden_thickness > 0 AND l.coal_thickness > 0 
+        THEN ROUND(l.overburden_thickness / l.coal_thickness, 2)
+        ELSE NULL
+      END as stripping_ratio
+FROM collars c
+CROSS APPLY fn_GetLithologyThickness(c.hole_id) l
+WHERE l.total_thickness > 0
+ORDER BY c.hole_id, l.total_thickness DESC;
+
+-- Query 20: สร้าง Table Valued Function สำหรับการวิเคราะห์เชิงพื้นที่ (Spatial Analysis TVF)
+-- Purpose: สร้างฟังก์ชันที่วิเคราะห์คุณภาพถ่านหินในพื้นที่รอบๆ หลุมเจาะ
+--          (Create function to analyze coal quality in surrounding area)
+IF OBJECT_ID('fn_GetSpatialQualityAnalysis', 'TF') IS NOT NULL DROP FUNCTION fn_GetSpatialQualityAnalysis;
+GO
+
+CREATE FUNCTION fn_GetSpatialQualityAnalysis(@hole_id NVARCHAR(50), @radius FLOAT)
+RETURNS TABLE
+AS
+RETURN
+(
+    WITH nearby_holes AS (
+        SELECT 
+              c2.hole_id
+        ,     c2.easting
+        ,     c2.northing
+        ,     SQRT(POWER(c1.easting - c2.easting, 2) + POWER(c1.northing - c2.northing, 2)) as distance
+        FROM collars c1
+        CROSS JOIN collars c2
+        WHERE c1.hole_id = @hole_id
+            AND c2.hole_id != @hole_id
+            AND SQRT(POWER(c1.easting - c2.easting, 2) + POWER(c1.northing - c2.northing, 2)) <= @radius
+    )
+    SELECT 
+          @hole_id as center_hole_id
+    ,     @radius as search_radius
+    ,     COUNT(DISTINCT nh.hole_id) as nearby_hole_count
+    ,     ROUND(AVG(s.ash), 2) as avg_ash_in_area
+    ,     ROUND(AVG(s.gross_cv), 0) as avg_cv_in_area
+    ,     ROUND(AVG(s.sulphur), 2) as avg_sulphur_in_area
+    ,     ROUND(MIN(nh.distance), 2) as nearest_hole_distance
+    ,     ROUND(MAX(nh.distance), 2) as farthest_hole_distance
+    FROM nearby_holes nh
+    JOIN sample_analyses s ON nh.hole_id = s.hole_id
+    WHERE s.ash IS NOT NULL
+        AND s.gross_cv IS NOT NULL
+);
+GO
+
+-- Query 21: ใช้ CROSS APPLY กับ Spatial Analysis TVF (Using CROSS APPLY with Spatial TVF)
+-- Purpose: วิเคราะห์คุณภาพถ่านหินในพื้นที่รอบๆ แต่ละหลุมเจาะ
+--          (Analyze coal quality in surrounding area for each hole)
+SELECT 
+      c.hole_id
+,     c.easting
+,     c.northing
+,     c.elevation
+,     c.total_depth
+,     c.year_drilled
+,     spa.search_radius
+,     spa.nearby_hole_count
+,     spa.avg_ash_in_area
+,     spa.avg_cv_in_area
+,     spa.avg_sulphur_in_area
+,     spa.nearest_hole_distance
+,     spa.farthest_hole_distance
+FROM collars c
+CROSS APPLY fn_GetSpatialQualityAnalysis(c.hole_id, 1000.0) spa  -- 1000m radius
+WHERE spa.nearby_hole_count > 0
+ORDER BY spa.avg_cv_in_area DESC;
+
+-- Query 22: ใช้ OUTER APPLY สำหรับการวิเคราะห์แบบ Optional (Using OUTER APPLY for Optional Analysis)
+-- Purpose: ใช้ OUTER APPLY เพื่อวิเคราะห์ข้อมูลที่อาจไม่มี (เช่น ข้อมูลคุณภาพ)
+--          (Use OUTER APPLY for analysis that might not have data)
+SELECT 
+      c.hole_id
+,     c.easting
+,     c.northing
+,     c.total_depth
+,     c.year_drilled
+,     c.geologist
+,     COALESCE(q.sample_count, 0) as sample_count
+,     COALESCE(q.avg_ash, 0) as avg_ash
+,     COALESCE(q.avg_cv, 0) as avg_cv
+,     COALESCE(q.quality_grade, 'No Data') as quality_grade
+,     CASE 
+        WHEN q.sample_count IS NULL THEN 'No Quality Data'
+        WHEN q.sample_count = 0 THEN 'No Samples'
+        ELSE 'Has Quality Data'
+      END as data_status
+FROM collars c
+OUTER APPLY fn_GetCoalQualityMetrics(c.hole_id) q
+ORDER BY c.hole_id;
+
+-- Query 23: ใช้ CROSS APPLY กับ Multiple TVFs (Using CROSS APPLY with Multiple TVFs)
+-- Purpose: รวมข้อมูลจากหลาย TVFs เพื่อการวิเคราะห์ที่ครอบคลุม
+--          (Combine data from multiple TVFs for comprehensive analysis)
+SELECT 
+      c.hole_id
+,     c.easting
+,     c.northing
+,     c.total_depth
+,     c.year_drilled
+,     c.geologist
+    -- Quality metrics
+,     q.sample_count
+,     q.avg_ash
+,     q.avg_cv
+,     q.quality_grade
+    -- Lithology summary
+,     l.total_thickness
+,     l.coal_thickness
+,     l.overburden_thickness
+    -- Spatial analysis
+,     spa.nearby_hole_count
+,     spa.avg_cv_in_area
+,     spa.nearest_hole_distance
+    -- Combined metrics
+,     CASE 
+        WHEN l.coal_thickness > 0 AND l.overburden_thickness > 0 
+        THEN ROUND(l.overburden_thickness / l.coal_thickness, 2)
+        ELSE NULL
+      END as stripping_ratio
+,     CASE 
+        WHEN q.avg_cv > spa.avg_cv_in_area THEN 'Above Average'
+        WHEN q.avg_cv < spa.avg_cv_in_area THEN 'Below Average'
+        ELSE 'Average'
+      END as quality_vs_area
+FROM collars c
+CROSS APPLY fn_GetCoalQualityMetrics(c.hole_id) q
+CROSS APPLY (
+    SELECT 
+          SUM(total_thickness) as total_thickness
+    ,     SUM(coal_thickness) as coal_thickness
+    ,     SUM(overburden_thickness) as overburden_thickness
+    FROM fn_GetLithologyThickness(c.hole_id)
+) l
+CROSS APPLY fn_GetSpatialQualityAnalysis(c.hole_id, 1000.0) spa
+WHERE q.sample_count > 0
+ORDER BY q.avg_cv DESC;
+
+-- =====================================================
 -- ADVANCED QUERIES: Using Grouping Sets & Window Functions
 -- =====================================================
 
--- Query 16: วิเคราะห์คุณภาพถ่านหินด้วย Window Functions (Coal Quality Analysis using Window Functions)
+-- Query 24: วิเคราะห์คุณภาพถ่านหินด้วย Window Functions (Coal Quality Analysis using Window Functions)
 -- Purpose: ใช้ Window Functions เพื่อเปรียบเทียบคุณภาพถ่านหินกับค่าเฉลี่ยและค่ามากที่สุดในหลุมเดียวกัน
 --          (Compare coal quality against average and maximum values within the same hole)
 SELECT 
@@ -332,7 +583,7 @@ WHERE ash IS NOT NULL
     AND gross_cv IS NOT NULL
 ORDER BY hole_id, depth_from;
 
--- Query 17: วิเคราะห์ความหนาแบบสะสมด้วย Window Functions (Cumulative Thickness Analysis)
+-- Query 25: วิเคราะห์ความหนาแบบสะสมด้วย Window Functions (Cumulative Thickness Analysis)
 -- Purpose: คำนวณความหนาสะสมของชั้นถ่านหินตามความลึกเพื่อประเมินทรัพยากร
 --          (Calculate cumulative coal thickness by depth for resource estimation)
 SELECT 
@@ -357,7 +608,7 @@ FROM lithology_logs
 WHERE hole_id IN (SELECT DISTINCT hole_id FROM sample_analyses)
 ORDER BY hole_id, depth_from;
 
--- Query 18: วิเคราะห์แนวโน้มคุณภาพถ่านหินตามความลึกด้วย Window Functions (Quality Trend Analysis)
+-- Query 26: วิเคราะห์แนวโน้มคุณภาพถ่านหินตามความลึกด้วย Window Functions (Quality Trend Analysis)
 -- Purpose: ใช้ Moving Average เพื่อวิเคราะห์แนวโน้มคุณภาพถ่านหินตามระดับความลึก
 --          (Use moving average to analyze coal quality trends by depth)
 SELECT 
@@ -388,7 +639,7 @@ FROM sample_analyses
 WHERE ash IS NOT NULL AND gross_cv IS NOT NULL
 ORDER BY hole_id, depth_from;
 
--- Query 19: เปรียบเทียบคุณภาพระหว่างหลุมเจาะด้วย Window Functions (Inter-hole Quality Comparison)
+-- Query 27: เปรียบเทียบคุณภาพระหว่างหลุมเจาะด้วย Window Functions (Inter-hole Quality Comparison)
 -- Purpose: เปรียบเทียบคุณภาพถ่านหินของหลุมเจาะแต่ละหลุมกับค่าเฉลี่ยและค่ามัธยฐานทั้งโครงการ
 --          (Compare individual hole quality against project average and median)
 SELECT 
@@ -415,7 +666,7 @@ WHERE s.ash IS NOT NULL AND s.gross_cv IS NOT NULL
 GROUP BY c.hole_id, c.year_drilled, c.geologist
 ORDER BY quality_rank;
 
--- Query 20: ใช้ Grouping Sets เพื่อวิเคราะห์หลายมิติ (Multi-dimensional Analysis with Grouping Sets)
+-- Query 28: ใช้ Grouping Sets เพื่อวิเคราะห์หลายมิติ (Multi-dimensional Analysis with Grouping Sets)
 -- Purpose: วิเคราะห์คุณภาพถ่านหินในหลายมิติพร้อมกัน (หลุม, ปี, นักธรณีวิทยา, รวม)
 --          (Multi-dimensional analysis: by hole, year, geologist, and overall)
 SELECT 
@@ -441,7 +692,7 @@ GROUP BY GROUPING SETS (
 )
 ORDER BY grouping_level, hole_id, year_drilled, geologist;
 
--- Query 21: วิเคราะห์การกระจายตัวของข้อมูลด้วย Window Functions (Data Distribution Analysis)
+-- Query 29: วิเคราะห์การกระจายตัวของข้อมูลด้วย Window Functions (Data Distribution Analysis)
 -- Purpose: ใช้ Percentile และ Quartile เพื่อวิเคราะห์การกระจายตัวของคุณภาพถ่านหิน
 --          (Use percentiles and quartiles to analyze coal quality distribution)
 SELECT 
@@ -466,7 +717,7 @@ FROM sample_analyses
 WHERE ash IS NOT NULL AND gross_cv IS NOT NULL
 ORDER BY hole_id, depth_from;
 
--- Query 22: วิเคราะห์ความต่อเนื่องของชั้นถ่านหินด้วย Window Functions (Coal Seam Continuity Analysis)
+-- Query 30: วิเคราะห์ความต่อเนื่องของชั้นถ่านหินด้วย Window Functions (Coal Seam Continuity Analysis)
 -- Purpose: ตรวจสอบความต่อเนื่องและความสม่ำเสมอของชั้นถ่านหินในหลายหลุม
 --          (Analyze coal seam continuity and consistency across multiple holes)
 WITH depth_intervals AS (
