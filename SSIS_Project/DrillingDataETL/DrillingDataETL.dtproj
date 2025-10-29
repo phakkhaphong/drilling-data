@@ -170,8 +170,6 @@
     </ProjectParameter>
   </ItemGroup>
   
-  <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSIS\Microsoft.SQLServer.IntegrationServices.Build.targets" />
-  
   <Target Name="Build">
     <Message Text="Building SSIS Project: $(Name)" Importance="high" />
   </Target>
