@@ -1,158 +1,139 @@
-# Hongsa Drilling Data Processing
+# Coal Drilling Database - Normalized Best Practice
 
-A Python package for processing drilling data from Excel files and exporting to various formats including CSV and SQL Server.
+## Overview
+This is a normalized coal drilling database following best practices for mining data management. The database contains drilling hole data, sample analyses, seam classifications, and lithology information.
+
+## Quick Start
+
+### 1. Create Normalized Data
+```bash
+python create_drilling_database.py
+```
+
+### 2. Create Database
+```bash
+sqlite3 drilling_database.db < sql/create_drilling_database_schema.sql
+```
+
+### 3. Load Data
+```bash
+sqlite3 drilling_database.db < sql/load_drilling_database_data.sql
+```
 
 ## Project Structure
 
 ```
-hongsa/
-├── src/                          # Source code
-│   └── data_processing/          # Data processing modules
-│       ├── __init__.py
-│       ├── clean_and_create_db.py
-│       ├── export_sqlite_to_csv.py
-│       ├── fix_import_wizard.py
-│       ├── fix_csv_final.py
-│       ├── fix_csv_issues.py
-│       ├── fix_csv_issues_v2.py
-│       ├── fix_csv_ultimate.py
-│       └── validate_database.py
-├── data/                         # Data directory
-│   ├── raw/                      # Raw data files
-│   │   └── DH70.xlsx
-│   ├── processed/                # Processed data files
-│   │   ├── collars.csv
-│   │   ├── rock_types.csv
-│   │   ├── seam_codes.csv
-│   │   ├── lithology_logs.csv
-│   │   ├── sample_analyses.csv
-│   │   └── README.md
-│   └── export/                   # Export files (legacy)
-├── sql/                          # SQL scripts
-│   ├── create_tables.sql
-│   ├── add_foreign_keys.sql
-│   └── check_data.sql
-├── docs/                         # Documentation
-│   ├── README.md
-│   ├── SQL_SERVER_IMPORT_GUIDE.md
-│   ├── PROJECT_STRUCTURE.md
-│   └── Data_Cleaning_Steps.md
-├── Data_Cleaning_Tutorial_Polars.ipynb  # Jupyter Notebook tutorial
-├── tests/                        # Test files
-├── setup.py                      # Package setup
-├── requirements.txt              # Dependencies
-├── pyproject.toml               # Modern Python packaging
-└── README.md                    # This file
+data/
+├── drilling_database/        # ✅ FINAL DATABASE DATA
+│   ├── sample_analyses.csv            (8,592 records)
+│   ├── seam_codes_lookup.csv          (399 records)
+│   ├── rock_codes_lookup.csv           (28 records)
+│   ├── collars.csv                     (70 records)
+│   ├── lithology_logs.csv              (6,598 records)
+│   └── rock_types.csv                  (19 records)
+└── raw/                          # ✅ SOURCE DATA
+    └── DH70.xlsx
+
+sql/
+├── create_drilling_database_schema.sql    # ✅ FINAL SCHEMA
+└── load_drilling_database_data.sql      # ✅ DATA LOADER
+
+docs/
+└── BEST_PRACTICES.md                  # ✅ COMPLETE DOCUMENTATION
+
+create_drilling_database.py  # ✅ MAIN SCRIPT
 ```
 
-## Installation
+## Key Features
 
-1. Clone the repository:
-```bash
-git clone <repository-url>
-cd hongsa
+- **Data Normalization (3NF)**: All lookup data in separate tables
+- **Foreign Key Relationships**: Proper referential integrity
+- **Data Validation**: Constraints for depth and percentages
+- **Performance Optimization**: Indexes on frequently queried columns
+- **Mining Industry Standards**: Multiple seam classification systems
+
+## Database Schema
+
+### Core Tables
+- `collars` - Drilling hole locations and basic information
+- `lithology_logs` - Detailed lithology for each depth interval
+- `sample_analyses` - Laboratory analysis results with foreign key relationships
+
+### Lookup Tables
+- `seam_codes_lookup` - All seam codes from 6 classification systems (30, 46, 57, 58, Quality, 73)
+- `rock_codes_lookup` - Standard rock/lithology codes
+- `rock_types` - Rock type classifications
+
+### Views
+- `sample_analyses_complete` - Samples with seam information
+- `sample_analyses_with_location` - Samples with collar coordinates
+- `holes_complete` - Complete hole information with statistics
+- `seam_summary_by_hole` - Seam summaries grouped by hole
+
+## Data Statistics
+
+- **Total samples**: 8,592
+- **Samples with Quality seam codes**: 3,812
+- **Samples with 73 seam codes**: 5,443
+- **Drilling holes**: 70
+- **Lithology log entries**: 6,598
+- **Seam codes**: 399 (from 6 systems)
+- **Rock codes**: 28
+
+## Usage Examples
+
+### Query samples by seam code
+```sql
+SELECT * FROM sample_analyses_complete
+WHERE quality_seam_label = 'H3c';
 ```
 
-2. Create a virtual environment:
-```bash
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+### Query samples by hole with location
+```sql
+SELECT * FROM sample_analyses_with_location
+WHERE hole_id = 'BC01C';
 ```
 
-3. Install dependencies:
-```bash
-pip install -r requirements.txt
+### Get seam summary
+```sql
+SELECT * FROM seam_summary_by_hole
+WHERE hole_id = 'BC01C';
 ```
 
-4. Install the package in development mode:
-```bash
-pip install -e .
-```
+## Best Practices Applied
 
-## Usage
+✅ **Data Normalization (3NF)**
+✅ **Foreign Key Relationships**
+✅ **Data Validation Constraints**
+✅ **Performance Indexes**
+✅ **Mining Industry Standards**
+✅ **Referential Integrity**
 
-### Command Line Interface
+## Files to Use
 
-```bash
-# Clean data and create database
-python src/data_processing/clean_and_create_db.py
+**For Creating Normalized Data:**
+- `create_drilling_database.py` - Run this first
 
-# Export SQLite database to CSV
-python src/data_processing/export_sqlite_to_csv.py
+**For Database Creation:**
+- `sql/create_drilling_database_schema.sql`
+- `sql/load_drilling_database_data.sql`
 
-# Validate database
-python src/data_processing/validate_database.py
-```
+**For Data Access:**
+- `data/drilling_database/` (all CSV files)
 
-### Python API
-
-```python
-from src.data_processing.clean_and_create_db import clean_data
-from src.data_processing.export_sqlite_to_csv import export_sqlite_to_csv
-
-# Clean data and create database
-clean_data()
-
-# Export SQLite to CSV
-export_sqlite_to_csv()
-```
-
-## Data Processing Workflow
-
-1. **Raw Data**: Excel file (`data/raw/DH70.xlsx`)
-2. **Processing**: Clean and transform data using Polars
-3. **Database**: Create SQLite database
-4. **Export**: Export to CSV files for SQL Server import
-5. **Import**: Use SQL scripts to import to SQL Server
-
-## SQL Server Import
-
-1. Run `sql/create_tables.sql` to create tables
-2. Use SQL Server Import Wizard with files from `data/processed/`:
-   - `collars.csv` → collars table
-   - `rock_types.csv` → rock_types table
-   - `seam_codes.csv` → seam_codes table
-   - `lithology_logs.csv` → lithology_logs table
-   - `sample_analyses.csv` → sample_analyses table
-3. Run `sql/add_foreign_keys.sql` to add relationships
-4. Run `sql/check_data.sql` to validate import
-
-For detailed import instructions, see `docs/SQL_SERVER_IMPORT_GUIDE.md`.
-
-## Development
-
-### Running Tests
-
-```bash
-pytest
-```
-
-### Code Formatting
-
-```bash
-black src/
-```
-
-### Type Checking
-
-```bash
-mypy src/
-```
+**For Documentation:**
+- `docs/BEST_PRACTICES.md`
+- `FINAL_DATABASE_SUMMARY.md`
 
 ## Dependencies
 
-- **polars**: Fast data processing
-- **openpyxl**: Excel file reading
-- **sqlite3**: Database operations (built-in)
+- Python 3.8+
+- Polars
+- SQLite3
+- openpyxl (for Excel processing)
 
-## License
+## Status
+✅ **FINAL VERSION - Ready for Production Use**
 
-MIT License
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests
-5. Submit a pull request
+---
+*This database follows best practices for coal drilling data management with proper normalization and referential integrity.*
