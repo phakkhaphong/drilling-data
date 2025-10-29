@@ -13,3 +13,4 @@
   <DTS:Property DTS:Name="ServerName" DTS:DataType="8" DTS:Description="The server name." DTS:IncludeInDebugDump="6789">localhost</DTS:Property>
   <DTS:Property DTS:Name="UseWindowsAuthentication" DTS:DataType="11" DTS:Description="Use Windows authentication." DTS:IncludeInDebugDump="6789">True</DTS:Property>
 </DTS:ConnectionManager>
+

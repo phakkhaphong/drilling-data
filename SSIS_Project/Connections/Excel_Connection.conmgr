@@ -16,3 +16,4 @@
   <DTS:Property DTS:Name="RetainNulls" DTS:DataType="11" DTS:Description="Retain nulls from the source in the data flow." DTS:IncludeInDebugDump="6789">False</DTS:Property>
   <DTS:Property DTS:Name="UseFirstRowAsHeader" DTS:DataType="11" DTS:Description="Use first row as header." DTS:IncludeInDebugDump="6789">True</DTS:Property>
 </DTS:ConnectionManager>
+
