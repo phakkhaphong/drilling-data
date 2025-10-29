@@ -49,7 +49,7 @@
     <DTS:Variable DTS:CreationName="" DTS:DTSID="{L2M3N4O5-P6Q7-8901-2345-678901234567}" DTS:IncludeInDebugDump="6789" DTS:Namespace="System" DTS:ObjectName="EndTime">
       <DTS:VariableValue DTS:DataType="8">10/29/2025 8:45:00 AM</DTS:VariableValue>
     </DTS:Variable>
-    <DTS:Variable DTS:CreationName="" DTS:DTSID="{M3N4O5P6-Q7R8-9012-3456-789012345678}" DTS:IncludeInDebugDump="6789" DTS:Namespace="User" DTS:ObjectName="System::ErrorCount">
+    <DTS:Variable DTS:CreationName="" DTS:DTSID="{M3N4O5P6-Q7R8-9012-3456-789012345678}" DTS:IncludeInDebugDump="6789" DTS:Namespace="User" DTS:ObjectName="ErrorCount">
       <DTS:VariableValue DTS:DataType="3">0</DTS:VariableValue>
     </DTS:Variable>
   </DTS:Variables>
