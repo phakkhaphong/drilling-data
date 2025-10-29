@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DTS:ConnectionManager xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:ObjectName="CSV_Connection"
+  DTS:DTSID="{J0K1L2M3-N4O5-6789-3456-012345678901}"
+  DTS:ObjectType="Microsoft.FlatFile"
+  DTS:CreationName="Microsoft.FlatFile"
+  DTS:Description="Connection to CSV files"
+  DTS:Version="1">
+  <DTS:Property DTS:Name="ConnectionString" DTS:DataType="8" DTS:Description="The connection string." DTS:IncludeInDebugDump="6789">@[$Project::ProcessedDataPath]</DTS:Property>
+  <DTS:Property DTS:Name="ConnectionStringExpression" DTS:DataType="8" DTS:Description="The connection string expression." DTS:IncludeInDebugDump="6789"></DTS:Property>
+  <DTS:Property DTS:Name="Format" DTS:DataType="8" DTS:Description="The format." DTS:IncludeInDebugDump="6789">Delimited</DTS:Property>
+  <DTS:Property DTS:Name="LocaleID" DTS:DataType="3" DTS:Description="The locale ID." DTS:IncludeInDebugDump="6789">1033</DTS:Property>
+  <DTS:Property DTS:Name="Unicode" DTS:DataType="11" DTS:Description="Unicode." DTS:IncludeInDebugDump="6789">False</DTS:Property>
+  <DTS:Property DTS:Name="HeaderRowDelimiter" DTS:DataType="8" DTS:Description="The header row delimiter." DTS:IncludeInDebugDump="6789">\r\n</DTS:Property>
+  <DTS:Property DTS:Name="HeaderRowsToSkip" DTS:DataType="3" DTS:Description="The number of header rows to skip." DTS:IncludeInDebugDump="6789">0</DTS:Property>
+  <DTS:Property DTS:Name="ColumnNamesInFirstDataRow" DTS:DataType="11" DTS:Description="Column names in first data row." DTS:IncludeInDebugDump="6789">True</DTS:Property>
+  <DTS:Property DTS:Name="RowDelimiter" DTS:DataType="8" DTS:Description="The row delimiter." DTS:IncludeInDebugDump="6789">\r\n</DTS:Property>
+  <DTS:Property DTS:Name="TextQualifier" DTS:DataType="8" DTS:Description="The text qualifier." DTS:IncludeInDebugDump="6789">"</DTS:Property>
+  <DTS:Property DTS:Name="CodePage" DTS:DataType="3" DTS:Description="The code page." DTS:IncludeInDebugDump="6789">1252</DTS:Property>
+</DTS:ConnectionManager>

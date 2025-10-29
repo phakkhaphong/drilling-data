@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="10/29/2025 8:45:00 AM"
+  DTS:CreatorComputerName="HONGSA"
+  DTS:CreatorName="SSIS Developer"
+  DTS:DTSID="{C3D4E5F6-G7H8-9012-CDEF-345678901234}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="LoadCollars"
+  DTS:PackageType="5"
+  DTS:VersionBuild="1"
+  DTS:VersionGUID="{C3D4E5F6-G7H8-9012-CDEF-345678901234}"
+  DTS:VersionMajor="1"
+  DTS:VersionMinor="0">
+  <DTS:Property DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager DTS:refId="Package.ConnectionManagers[CSV_Connection]" DTS:CreationName="Microsoft.FlatFile" DTS:DTSID="{J0K1L2M3-N4O5-6789-3456-012345678901}" DTS:ObjectName="CSV_Connection" DTS:ObjectType="Microsoft.FlatFile">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager>
+          <DTS:Property DTS:Name="ConnectionString">@[$Project::ProcessedDataPath]\collars.csv</DTS:Property>
+          <DTS:Property DTS:Name="Format">Delimited</DTS:Property>
+          <DTS:Property DTS:Name="LocaleID">1033</DTS:Property>
+          <DTS:Property DTS:Name="Unicode">False</DTS:Property>
+          <DTS:Property DTS:Name="HeaderRowDelimiter">\r\n</DTS:Property>
+          <DTS:Property DTS:Name="HeaderRowsToSkip">0</DTS:Property>
+          <DTS:Property DTS:Name="ColumnNamesInFirstDataRow">True</DTS:Property>
+          <DTS:Property DTS:Name="RowDelimiter">\r\n</DTS:Property>
+          <DTS:Property DTS:Name="TextQualifier">"</DTS:Property>
+          <DTS:Property DTS:Name="CodePage">1252</DTS:Property>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager DTS:refId="Package.ConnectionManagers[SQL_Server_Connection]" DTS:CreationName="Microsoft.SqlServer" DTS:DTSID="{I9J0K1L2-M3N4-5678-2345-901234567890}" DTS:ObjectName="SQL_Server_Connection" DTS:ObjectType="Microsoft.SqlServer">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager>
+          <DTS:Property DTS:Name="ConnectionString">Data Source=@[$Project::SQLServerInstance];Initial Catalog=@[$Project::DatabaseName];Integrated Security=SSPI;Provider=SQLNCLI11.1;Auto Translate=False;</DTS:Property>
+          <DTS:Property DTS:Name="Database">@[$Project::DatabaseName]</DTS:Property>
+          <DTS:Property DTS:Name="RetainSameConnection">False</DTS:Property>
+          <DTS:Property DTS:Name="ServerName">@[$Project::SQLServerInstance]</DTS:Property>
+          <DTS:Property DTS:Name="UseWindowsAuthentication">True</DTS:Property>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables>
+    <DTS:Variable DTS:CreationName="" DTS:DTSID="{T0U1V2W3-X4Y5-6789-0123-456789012345}" DTS:IncludeInDebugDump="6789" DTS:Namespace="System" DTS:ObjectName="StartTime">
+      <DTS:VariableValue DTS:DataType="8">10/29/2025 8:45:00 AM</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable DTS:CreationName="" DTS:DTSID="{U1V2W3X4-Y5Z6-7890-1234-567890123456}" DTS:IncludeInDebugDump="6789" DTS:Namespace="System" DTS:ObjectName="EndTime">
+      <DTS:VariableValue DTS:DataType="8">10/29/2025 8:45:00 AM</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable DTS:CreationName="" DTS:DTSID="{V2W3X4Y5-Z6A7-8901-2345-678901234567}" DTS:IncludeInDebugDump="6789" DTS:Namespace="User" DTS:ObjectName="ErrorCount">
+      <DTS:VariableValue DTS:DataType="3">0</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable DTS:refId="Package\Data Flow Task 1" DTS:CreationName="Microsoft.Pipeline" DTS:Description="Data Flow Task for Collars" DTS:DTSID="{W3X4Y5Z6-A7B8-9012-3456-789012345678}" DTS:ExecutableType="Microsoft.Pipeline" DTS:LocaleID="-1" DTS:ObjectName="Data Flow Task 1" DTS:VersionBuild="1" DTS:VersionGUID="{W3X4Y5Z6-A7B8-9012-3456-789012345678}" DTS:VersionMajor="1" DTS:VersionMinor="0">
+      <DTS:ObjectData>
+        <DTS:Pipeline>
+          <DTS:Property DTS:Name="BLOBTempStoragePath"></DTS:Property>
+          <DTS:Property DTS:Name="BufferTempStoragePath"></DTS:Property>
+          <DTS:Property DTS:Name="DefaultBufferMaxRows">10000</DTS:Property>
+          <DTS:Property DTS:Name="DefaultBufferSize">10485760</DTS:Property>
+          <DTS:Property DTS:Name="EngineThreads">-1</DTS:Property>
+          <DTS:Property DTS:Name="RunInOptimizedMode">True</DTS:Property>
+        </DTS:Pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:LogProviders>
+    <DTS:LogProvider DTS:refId="Package.LogProviders[SSIS log provider for SQL Server]" DTS:CreationName="DTS.LogProviderSQLServer" DTS:DTSID="{X4Y5Z6A7-B8C9-0123-4567-890123456789}" DTS:ObjectName="SSIS log provider for SQL Server" DTS:ObjectType="DTS.LogProviderSQLServer">
+      <DTS:ObjectData>
+        <DTS:LogProvider>
+          <DTS:Property DTS:Name="ConnectionString">Data Source=@[$Project::SQLServerInstance];Initial Catalog=msdb;Integrated Security=SSPI;</DTS:Property>
+        </DTS:LogProvider>
+      </DTS:ObjectData>
+    </DTS:LogProvider>
+  </DTS:LogProviders>
+</DTS:Executable>

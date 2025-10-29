@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="10/29/2025 8:45:00 AM"
+  DTS:CreatorComputerName="HONGSA"
+  DTS:CreatorName="SSIS Developer"
+  DTS:DTSID="{B2C3D4E5-F6G7-8901-BCDE-F23456789012}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="MainETL"
+  DTS:PackageType="5"
+  DTS:VersionBuild="1"
+  DTS:VersionGUID="{B2C3D4E5-F6G7-8901-BCDE-F23456789012}"
+  DTS:VersionMajor="1"
+  DTS:VersionMinor="0">
+  <DTS:Property DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager DTS:refId="Package.ConnectionManagers[Excel_Connection]" DTS:CreationName="Microsoft.Excel" DTS:DTSID="{H8I9J0K1-L2M3-4567-1234-890123456789}" DTS:ObjectName="Excel_Connection" DTS:ObjectType="Microsoft.Excel">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager>
+          <DTS:Property DTS:Name="ExcelFilePath">@[$Project::ExcelFilePath]</DTS:Property>
+          <DTS:Property DTS:Name="ExcelFileType">Excel 97-2003</DTS:Property>
+          <DTS:Property DTS:Name="HeaderRowDelimiter">\r\n</DTS:Property>
+          <DTS:Property DTS:Name="HeaderRowsToSkip">0</DTS:Property>
+          <DTS:Property DTS:Name="ImexMode">0</DTS:Property>
+          <DTS:Property DTS:Name="MaxRowsToScan">0</DTS:Property>
+          <DTS:Property DTS:Name="RefreshOnOpen">False</DTS:Property>
+          <DTS:Property DTS:Name="RetainNulls">False</DTS:Property>
+          <DTS:Property DTS:Name="UseFirstRowAsHeader">True</DTS:Property>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager DTS:refId="Package.ConnectionManagers[SQL_Server_Connection]" DTS:CreationName="Microsoft.SqlServer" DTS:DTSID="{I9J0K1L2-M3N4-5678-2345-901234567890}" DTS:ObjectName="SQL_Server_Connection" DTS:ObjectType="Microsoft.SqlServer">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager>
+          <DTS:Property DTS:Name="ConnectionString">Data Source=@[$Project::SQLServerInstance];Initial Catalog=@[$Project::DatabaseName];Integrated Security=SSPI;Provider=SQLNCLI11.1;Auto Translate=False;</DTS:Property>
+          <DTS:Property DTS:Name="Database">@[$Project::DatabaseName]</DTS:Property>
+          <DTS:Property DTS:Name="RetainSameConnection">False</DTS:Property>
+          <DTS:Property DTS:Name="ServerName">@[$Project::SQLServerInstance]</DTS:Property>
+          <DTS:Property DTS:Name="UseWindowsAuthentication">True</DTS:Property>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables>
+    <DTS:Variable DTS:CreationName="" DTS:DTSID="{K1L2M3N4-O5P6-7890-1234-567890123456}" DTS:IncludeInDebugDump="6789" DTS:Namespace="System" DTS:ObjectName="StartTime">
+      <DTS:VariableValue DTS:DataType="8">10/29/2025 8:45:00 AM</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable DTS:CreationName="" DTS:DTSID="{L2M3N4O5-P6Q7-8901-2345-678901234567}" DTS:IncludeInDebugDump="6789" DTS:Namespace="System" DTS:ObjectName="EndTime">
+      <DTS:VariableValue DTS:DataType="8">10/29/2025 8:45:00 AM</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable DTS:CreationName="" DTS:DTSID="{M3N4O5P6-Q7R8-9012-3456-789012345678}" DTS:IncludeInDebugDump="6789" DTS:Namespace="User" DTS:ObjectName="ErrorCount">
+      <DTS:VariableValue DTS:DataType="3">0</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable DTS:refId="Package\LoadCollars" DTS:CreationName="Microsoft.Package" DTS:Description="Load Collars data from CSV" DTS:DTSID="{C3D4E5F6-G7H8-9012-CDEF-345678901234}" DTS:ExecutableType="Microsoft.Package" DTS:LocaleID="-1" DTS:ObjectName="LoadCollars" DTS:PackageID="{C3D4E5F6-G7H8-9012-CDEF-345678901234}" DTS:VersionBuild="1" DTS:VersionGUID="{C3D4E5F6-G7H8-9012-CDEF-345678901234}" DTS:VersionMajor="1" DTS:VersionMinor="0">
+      <DTS:ObjectData>
+        <DTS:Package>
+          <DTS:Property DTS:Name="PackageFormatVersion">8</DTS:Property>
+        </DTS:Package>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable DTS:refId="Package\LoadSampleAnalyses" DTS:CreationName="Microsoft.Package" DTS:Description="Load Sample Analyses data from CSV" DTS:DTSID="{G7H8I9J0-K1L2-3456-0123-789012345678}" DTS:ExecutableType="Microsoft.Package" DTS:LocaleID="-1" DTS:ObjectName="LoadSampleAnalyses" DTS:PackageID="{G7H8I9J0-K1L2-3456-0123-789012345678}" DTS:VersionBuild="1" DTS:VersionGUID="{G7H8I9J0-K1L2-3456-0123-789012345678}" DTS:VersionMajor="1" DTS:VersionMinor="0">
+      <DTS:ObjectData>
+        <DTS:Package>
+          <DTS:Property DTS:Name="PackageFormatVersion">8</DTS:Property>
+        </DTS:Package>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint DTS:refId="Package.PrecedenceConstraints[Constraint 1]" DTS:CreationName="" DTS:DTSID="{N4O5P6Q7-R8S9-0123-4567-890123456789}" DTS:From="Package\LoadCollars" DTS:To="Package\LoadSampleAnalyses" DTS:LogicalAnd="True" DTS:Value="0"/>
+  </DTS:PrecedenceConstraints>
+  <DTS:LogProviders>
+    <DTS:LogProvider DTS:refId="Package.LogProviders[SSIS log provider for SQL Server]" DTS:CreationName="DTS.LogProviderSQLServer" DTS:DTSID="{R8S9T0U1-V2W3-4567-8901-234567890123}" DTS:ObjectName="SSIS log provider for SQL Server" DTS:ObjectType="DTS.LogProviderSQLServer">
+      <DTS:ObjectData>
+        <DTS:LogProvider>
+          <DTS:Property DTS:Name="ConnectionString">Data Source=@[$Project::SQLServerInstance];Initial Catalog=msdb;Integrated Security=SSPI;</DTS:Property>
+        </DTS:LogProvider>
+      </DTS:ObjectData>
+    </DTS:LogProvider>
+  </DTS:LogProviders>
+</DTS:Executable>

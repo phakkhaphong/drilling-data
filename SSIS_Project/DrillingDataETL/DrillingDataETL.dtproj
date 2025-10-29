@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">Default</Platform>
+    <ProductVersion>10.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}</ProjectGuid>
+    <ProjectTypeGuids>{D954291E-2A0B-460D-934E-DC6B0785DB48}</ProjectTypeGuids>
+    <OutputType>Package</OutputType>
+    <Name>DrillingDataETL</Name>
+    <RootNamespace>DrillingDataETL</RootNamespace>
+    <AssemblyName>DrillingDataETL</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <DeploymentModel>Project</DeploymentModel>
+    <TargetServerVersion>SQLServer2019</TargetServerVersion>
+    <TargetDatabaseVersion>SQLServer2019</TargetDatabaseVersion>
+    <ProtectionLevel>DontSaveSensitive</ProtectionLevel>
+  </PropertyGroup>
+  
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|Default' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <SuppressConfigurationWarnings>False</SuppressConfigurationWarnings>
+    <UpdateObjects>True</UpdateObjects>
+    <UpdatePackages>True</UpdatePackages>
+    <ValidateExternalMetadata>True</ValidateExternalMetadata>
+    <RunInOptimizedMode>False</RunInOptimizedMode>
+    <MaxConcurrentExecutables>4</MaxConcurrentExecutables>
+    <LogLevel>4</LogLevel>
+    <ObjectData>False</ObjectData>
+    <OfflineMode>False</OfflineMode>
+    <RefactorTargetServer>True</RefactorTargetServer>
+    <RestrictedPermissions>False</RestrictedPermissions>
+  </PropertyGroup>
+  
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|Default' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <SuppressConfigurationWarnings>False</SuppressConfigurationWarnings>
+    <UpdateObjects>True</UpdateObjects>
+    <UpdatePackages>True</UpdatePackages>
+    <ValidateExternalMetadata>True</ValidateExternalMetadata>
+    <RunInOptimizedMode>True</RunInOptimizedMode>
+    <MaxConcurrentExecutables>4</MaxConcurrentExecutables>
+    <LogLevel>4</LogLevel>
+    <ObjectData>False</ObjectData>
+    <OfflineMode>False</OfflineMode>
+    <RefactorTargetServer>True</RefactorTargetServer>
+    <RestrictedPermissions>False</RestrictedPermissions>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <Package Include="Packages\MainETL.dtsx">
+      <DTSID>{B2C3D4E5-F6G7-8901-BCDE-F23456789012}</DTSID>
+      <CreationName></CreationName>
+      <ObjectName>MainETL</ObjectName>
+      <ObjectType>Microsoft.Package</ObjectType>
+      <VersionBuild>0</VersionBuild>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <VersionRevision>0</VersionRevision>
+    </Package>
+    <Package Include="Packages\LoadCollars.dtsx">
+      <DTSID>{C3D4E5F6-G7H8-9012-CDEF-345678901234}</DTSID>
+      <CreationName></CreationName>
+      <ObjectName>LoadCollars</ObjectName>
+      <ObjectType>Microsoft.Package</ObjectType>
+      <VersionBuild>0</VersionBuild>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <VersionRevision>0</VersionRevision>
+    </Package>
+    <Package Include="Packages\LoadSampleAnalyses.dtsx">
+      <DTSID>{G7H8I9J0-K1L2-3456-0123-789012345678}</DTSID>
+      <CreationName></CreationName>
+      <ObjectName>LoadSampleAnalyses</ObjectName>
+      <ObjectType>Microsoft.Package</ObjectType>
+      <VersionBuild>0</VersionBuild>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <VersionRevision>0</VersionRevision>
+    </Package>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <ConnectionManager Include="Connections\Excel_Connection.conmgr">
+      <ObjectName>Excel_Connection</ObjectName>
+      <DTSID>{H8I9J0K1-L2M3-4567-1234-890123456789}</DTSID>
+      <ObjectType>Microsoft.Excel</ObjectType>
+    </ConnectionManager>
+    <ConnectionManager Include="Connections\SQL_Server_Connection.conmgr">
+      <ObjectName>SQL_Server_Connection</ObjectName>
+      <DTSID>{I9J0K1L2-M3N4-5678-2345-901234567890}</DTSID>
+      <ObjectType>Microsoft.SqlServer</ObjectType>
+    </ConnectionManager>
+    <ConnectionManager Include="Connections\CSV_Connection.conmgr">
+      <ObjectName>CSV_Connection</ObjectName>
+      <DTSID>{J0K1L2M3-N4O5-6789-3456-012345678901}</DTSID>
+      <ObjectType>Microsoft.FlatFile</ObjectType>
+    </ConnectionManager>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectParameter Include="ExcelFilePath">
+      <Name>ExcelFilePath</Name>
+      <DataType>String</DataType>
+      <Value>data/raw/DH70.xlsx</Value>
+      <Required>True</Required>
+      <Sensitive>False</Sensitive>
+      <Description>Path to the Excel file containing drilling data</Description>
+    </ProjectParameter>
+    <ProjectParameter Include="SQLServerInstance">
+      <Name>SQLServerInstance</Name>
+      <DataType>String</DataType>
+      <Value>localhost</Value>
+      <Required>True</Required>
+      <Sensitive>False</Sensitive>
+      <Description>SQL Server instance name</Description>
+    </ProjectParameter>
+    <ProjectParameter Include="DatabaseName">
+      <Name>DatabaseName</Name>
+      <DataType>String</DataType>
+      <Value>DrillingDatabase</Value>
+      <Required>True</Required>
+      <Sensitive>False</Sensitive>
+      <Description>Target database name</Description>
+    </ProjectParameter>
+    <ProjectParameter Include="ProcessedDataPath">
+      <Name>ProcessedDataPath</Name>
+      <DataType>String</DataType>
+      <Value>data/processed</Value>
+      <Required>True</Required>
+      <Sensitive>False</Sensitive>
+      <Description>Path to processed CSV files</Description>
+    </ProjectParameter>
+    <ProjectParameter Include="LogLevel">
+      <Name>LogLevel</Name>
+      <DataType>Int32</DataType>
+      <Value>4</Value>
+      <Required>False</Required>
+      <Sensitive>False</Sensitive>
+      <Description>SSIS Log Level (0=None, 1=Basic, 2=Performance, 3=Verbose, 4=Diagnostic)</Description>
+    </ProjectParameter>
+    <ProjectParameter Include="MaxConcurrentExecutables">
+      <Name>MaxConcurrentExecutables</Name>
+      <DataType>Int32</DataType>
+      <Value>4</Value>
+      <Required>False</Required>
+      <Sensitive>False</Sensitive>
+      <Description>Maximum number of concurrent executables</Description>
+    </ProjectParameter>
+    <ProjectParameter Include="ErrorOutputPath">
+      <Name>ErrorOutputPath</Name>
+      <DataType>String</DataType>
+      <Value>data/error</Value>
+      <Required>False</Required>
+      <Sensitive>False</Sensitive>
+      <Description>Path for error output files</Description>
+    </ProjectParameter>
+    <ProjectParameter Include="BatchSize">
+      <Name>BatchSize</Name>
+      <DataType>Int32</DataType>
+      <Value>1000</Value>
+      <Required>False</Required>
+      <Sensitive>False</Sensitive>
+      <Description>Batch size for data loading</Description>
+    </ProjectParameter>
+  </ItemGroup>
+  
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSIS\Microsoft.SQLServer.IntegrationServices.Build.targets" />
+</Project>

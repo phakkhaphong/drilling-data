@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="www.microsoft.com/SqlServer/IntegrationServices">
+  <Parameters>
+    <Parameter Name="ExcelFilePath" DataType="String" Required="True" Sensitive="False">
+      <DefaultValue>data/raw/DH70.xlsx</DefaultValue>
+      <Description>Path to the Excel file containing drilling data</Description>
+    </Parameter>
+    <Parameter Name="SQLServerInstance" DataType="String" Required="True" Sensitive="False">
+      <DefaultValue>localhost</DefaultValue>
+      <Description>SQL Server instance name</Description>
+    </Parameter>
+    <Parameter Name="DatabaseName" DataType="String" Required="True" Sensitive="False">
+      <DefaultValue>DrillingDatabase</DefaultValue>
+      <Description>Target database name</Description>
+    </Parameter>
+    <Parameter Name="ProcessedDataPath" DataType="String" Required="True" Sensitive="False">
+      <DefaultValue>data/processed</DefaultValue>
+      <Description>Path to processed CSV files</Description>
+    </Parameter>
+    <Parameter Name="LogLevel" DataType="Int32" Required="False" Sensitive="False">
+      <DefaultValue>4</DefaultValue>
+      <Description>SSIS Log Level (0=None, 1=Basic, 2=Performance, 3=Verbose, 4=Diagnostic)</Description>
+    </Parameter>
+    <Parameter Name="MaxConcurrentExecutables" DataType="Int32" Required="False" Sensitive="False">
+      <DefaultValue>4</DefaultValue>
+      <Description>Maximum number of concurrent executables</Description>
+    </Parameter>
+    <Parameter Name="ErrorOutputPath" DataType="String" Required="False" Sensitive="False">
+      <DefaultValue>data/error</DefaultValue>
+      <Description>Path for error output files</Description>
+    </Parameter>
+    <Parameter Name="BatchSize" DataType="Int32" Required="False" Sensitive="False">
+      <DefaultValue>1000</DefaultValue>
+      <Description>Batch size for data loading</Description>
+    </Parameter>
+  </Parameters>
+</Project>
