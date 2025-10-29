@@ -1,30 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">Default</Platform>
+    <ProductVersion>10.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}</ProjectGuid>
+    <ProjectTypeGuids>{D954291E-2A0B-460D-934E-DC6B0785DB48}</ProjectTypeGuids>
+    <OutputType>Package</OutputType>
     <Name>DrillingDataETL</Name>
-    <Guid>{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}</Guid>
-    <VersionBuild>0</VersionBuild>
-    <VersionMajor>1</VersionMajor>
-    <VersionMinor>0</VersionMinor>
-    <VersionRevision>0</VersionRevision>
-    <Configuration>Debug</Configuration>
-    <Platform>Default</Platform>
+    <RootNamespace>DrillingDataETL</RootNamespace>
+    <AssemblyName>DrillingDataETL</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <DeploymentModel>Project</DeploymentModel>
     <TargetServerVersion>SQLServer2022</TargetServerVersion>
     <TargetDatabaseVersion>SQLServer2022</TargetDatabaseVersion>
     <ProtectionLevel>DontSaveSensitive</ProtectionLevel>
-    <RestorePackages>True</RestorePackages>
-    <SuppressConfigurationWarnings>False</SuppressConfigurationWarnings>
-    <UpdateObjects>True</UpdateObjects>
-    <UpdatePackages>True</UpdatePackages>
-    <ValidateExternalMetadata>True</ValidateExternalMetadata>
-    <RunInOptimizedMode>True</RunInOptimizedMode>
-    <MaxConcurrentExecutables>4</MaxConcurrentExecutables>
-    <LogLevel>4</LogLevel>
-    <ObjectData>False</ObjectData>
-    <OfflineMode>False</OfflineMode>
-    <RefactorTargetServer>True</RefactorTargetServer>
-    <RestrictedPermissions>False</RestrictedPermissions>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|Default' ">
     <OutputPath>bin\Debug\</OutputPath>
@@ -170,15 +161,6 @@
     </ProjectParameter>
   </ItemGroup>
   
-  <Target Name="Build">
-    <Message Text="Building SSIS Project: $(Name)" Importance="high" />
-  </Target>
-  
-  <Target Name="Rebuild">
-    <CallTarget Targets="Clean;Build" />
-  </Target>
-  
-  <Target Name="Clean">
-    <Message Text="Cleaning SSIS Project: $(Name)" Importance="high" />
-  </Target>
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSIS\Microsoft.SQLServer.IntegrationServices.Build.targets" Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSIS\Microsoft.SQLServer.IntegrationServices.Build.targets')" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSIS\Microsoft.SQLServer.IntegrationServices.Build.targets" Condition="!Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSIS\Microsoft.SQLServer.IntegrationServices.Build.targets') And Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSIS\Microsoft.SQLServer.IntegrationServices.Build.targets')" />
 </Project>
