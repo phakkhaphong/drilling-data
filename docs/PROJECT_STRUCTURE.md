@@ -6,33 +6,31 @@
 ## ไฟล์หลัก (Core Files)
 
 ### 1. Data Processing Scripts
-- **`clean_and_create_db.py`** - สคริปต์หลักสำหรับทำความสะอาดข้อมูลจาก Excel และสร้างฐานข้อมูล SQLite
-- **`export_sqlite_to_csv.py`** - ส่งออกข้อมูลจาก SQLite เป็นไฟล์ CSV สำหรับนำเข้า SQL Server
-- **`validate_database.py`** - ตรวจสอบความถูกต้องและความสมบูรณ์ของข้อมูล
+- **`src/data_processing/clean_and_create_db.py`** - สคริปต์หลักสำหรับทำความสะอาดข้อมูลจาก Excel และสร้างฐานข้อมูล SQLite
+- **`src/data_processing/export_sqlite_to_csv.py`** - ส่งออกข้อมูลจาก SQLite เป็นไฟล์ CSV สำหรับนำเข้า SQL Server
+- **`src/data_processing/validate_database.py`** - ตรวจสอบความถูกต้องและความสมบูรณ์ของข้อมูล
 
 ### 2. Database Files
 - **`drilling_database.db`** - ฐานข้อมูล SQLite หลัก
-- **`DH70.xlsx`** - ไฟล์ข้อมูลดิบ (Excel)
+- **`data/raw/DH70.xlsx`** - ไฟล์ข้อมูลดิบ (Excel)
 
-### 3. Export Files (csv_export/)
-- **`collars.csv`** - ข้อมูลหลุมเจาะ (70 records)
-- **`lithology_logs.csv`** - บันทึกลำดับชั้นหิน (6,598 records)
-- **`sample_analyses.csv`** - ผลการวิเคราะห์ตัวอย่าง (8,592 records)
-- **`rock_types.csv`** - ประเภทหิน (19 records)
-- **`seam_codes.csv`** - รหัสชั้นถ่านหิน (97 records)
-- **`import_to_sqlserver.sql`** - สคริปต์ SQL สำหรับนำเข้าข้อมูลไปยัง SQL Server
-- **`export_summary.txt`** - สรุปการส่งออกข้อมูล
+### 3. Export Files (data/processed/)
+- **`data/processed/collars.csv`** - ข้อมูลหลุมเจาะ (70 records)
+- **`data/processed/lithology_logs.csv`** - บันทึกลำดับชั้นหิน (6,598 records)
+- **`data/processed/sample_analyses.csv`** - ผลการวิเคราะห์ตัวอย่าง (8,592 records)
+- **`data/processed/rock_types.csv`** - ประเภทหิน (19 records)
+- **`data/processed/seam_codes.csv`** - รหัสชั้นถ่านหิน (97 records)
+- **`data/processed/README.md`** - คำแนะนำการใช้งานไฟล์ CSV
 
 ### 4. SQL Query Files
 - **`sample_sql_queries.sql`** - คำสั่ง SQL ตัวอย่าง 15 คำสั่ง สำหรับการสอบถามข้อมูล
 
 ### 5. Documentation
 - **`README.md`** - คู่มือการใช้งานโปรเจกต์
-- **`PROJECT_STRUCTURE.md`** - ไฟล์นี้ (อธิบายโครงสร้างโปรเจกต์)
-- **`Data_Cleaning_Steps.md`** - ขั้นตอนการทำความสะอาดข้อมูล
-- **`SQLite_Usage_Guide.md`** - คู่มือการใช้งาน SQLite
-- **`SQL_Server_Import_Guide.md`** - คู่มือการนำเข้าข้อมูลไปยัง SQL Server
-- **`SQLite_to_SQLServer_Migration.md`** - คู่มือการย้ายข้อมูลจาก SQLite ไป SQL Server
+- **`docs/PROJECT_STRUCTURE.md`** - ไฟล์นี้ (อธิบายโครงสร้างโปรเจกต์)
+- **`docs/Data_Cleaning_Steps.md`** - ขั้นตอนการทำความสะอาดข้อมูล
+- **`docs/SQL_SERVER_IMPORT_GUIDE.md`** - คู่มือการนำเข้าข้อมูลไปยัง SQL Server
+- **`Data_Cleaning_Tutorial_Polars.ipynb`** - Jupyter Notebook สอนการทำความสะอาดข้อมูลด้วย Polars
 
 ## Database Schema
 
@@ -62,29 +60,30 @@
 
 1. **Data Cleaning**
    ```bash
-   python clean_and_create_db.py
+   python src/data_processing/clean_and_create_db.py
    ```
-   - อ่านข้อมูลจาก DH70.xlsx
+   - อ่านข้อมูลจาก data/raw/DH70.xlsx
    - ทำความสะอาดและจัดหมวดหมู่ข้อมูล
    - สร้างฐานข้อมูล SQLite
 
 2. **Validate Database**
    ```bash
-   python validate_database.py
+   python src/data_processing/validate_database.py
    ```
    - ตรวจสอบความถูกต้องของข้อมูล
    - ตรวจสอบความสัมพันธ์ระหว่างตาราง
 
 3. **Export to CSV**
    ```bash
-   python export_sqlite_to_csv.py
+   python src/data_processing/export_sqlite_to_csv.py
    ```
-   - ส่งออกข้อมูลเป็นไฟล์ CSV
+   - ส่งออกข้อมูลเป็นไฟล์ CSV ไปยัง data/processed/
    - สร้าง SQL import script
 
 4. **Import to SQL Server** (Manual)
-   - ใช้ไฟล์ CSV และ import_to_sqlserver.sql
-   - ดูรายละเอียดใน SQL_Server_Import_Guide.md
+   - ใช้ไฟล์ CSV จาก data/processed/
+   - ใช้ SQL scripts จาก sql/
+   - ดูรายละเอียดใน docs/SQL_SERVER_IMPORT_GUIDE.md
 
 ## Dependencies
 

@@ -12,6 +12,10 @@ hongsa/
 │       ├── clean_and_create_db.py
 │       ├── export_sqlite_to_csv.py
 │       ├── fix_import_wizard.py
+│       ├── fix_csv_final.py
+│       ├── fix_csv_issues.py
+│       ├── fix_csv_issues_v2.py
+│       ├── fix_csv_ultimate.py
 │       └── validate_database.py
 ├── data/                         # Data directory
 │   ├── raw/                      # Raw data files
@@ -21,8 +25,9 @@ hongsa/
 │   │   ├── rock_types.csv
 │   │   ├── seam_codes.csv
 │   │   ├── lithology_logs.csv
-│   │   └── sample_analyses.csv
-│   └── export/                   # Export files
+│   │   ├── sample_analyses.csv
+│   │   └── README.md
+│   └── export/                   # Export files (legacy)
 ├── sql/                          # SQL scripts
 │   ├── create_tables.sql
 │   ├── add_foreign_keys.sql
@@ -32,6 +37,7 @@ hongsa/
 │   ├── SQL_SERVER_IMPORT_GUIDE.md
 │   ├── PROJECT_STRUCTURE.md
 │   └── Data_Cleaning_Steps.md
+├── Data_Cleaning_Tutorial_Polars.ipynb  # Jupyter Notebook tutorial
 ├── tests/                        # Test files
 ├── setup.py                      # Package setup
 ├── requirements.txt              # Dependencies
@@ -68,24 +74,24 @@ pip install -e .
 ### Command Line Interface
 
 ```bash
-# Export SQLite database to CSV
-hongsa-export
-
 # Clean data and create database
-hongsa-clean
+python src/data_processing/clean_and_create_db.py
+
+# Export SQLite database to CSV
+python src/data_processing/export_sqlite_to_csv.py
 
 # Validate database
-hongsa-validate
+python src/data_processing/validate_database.py
 ```
 
 ### Python API
 
 ```python
-from src.data_processing import create_ultra_clean_csv
+from src.data_processing.clean_and_create_db import clean_data
 from src.data_processing.export_sqlite_to_csv import export_sqlite_to_csv
 
-# Create ultra-clean CSV for SQL Server import
-create_ultra_clean_csv()
+# Clean data and create database
+clean_data()
 
 # Export SQLite to CSV
 export_sqlite_to_csv()
