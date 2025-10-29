@@ -166,16 +166,10 @@
     </ProjectParameter>
   </ItemGroup>
   
-  <Target Name="Build">
-    <Message Text="Building SSIS Project: $(MSBuildProjectName)" Importance="high" />
-  </Target>
-  
-  <Target Name="Rebuild">
-    <Message Text="Rebuilding SSIS Project: $(MSBuildProjectName)" Importance="high" />
-  </Target>
-  
-  <Target Name="Clean">
-    <Message Text="Cleaning SSIS Project: $(MSBuildProjectName)" Importance="high" />
-  </Target>
-  
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSIS\Microsoft.SQLServer.IntegrationServices.Build.targets" Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSIS\Microsoft.SQLServer.IntegrationServices.Build.targets')" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSIS\Microsoft.SQLServer.IntegrationServices.Build.targets" Condition="!Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSIS\Microsoft.SQLServer.IntegrationServices.Build.targets') And Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSIS\Microsoft.SQLServer.IntegrationServices.Build.targets')" />
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v16.0\SSIS\Microsoft.SQLServer.IntegrationServices.Build.targets" Condition="!Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSIS\Microsoft.SQLServer.IntegrationServices.Build.targets') And !Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSIS\Microsoft.SQLServer.IntegrationServices.Build.targets') And Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v16.0\SSIS\Microsoft.SQLServer.IntegrationServices.Build.targets')" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v16.0\SSIS\Microsoft.SQLServer.IntegrationServices.Build.targets" Condition="!Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSIS\Microsoft.SQLServer.IntegrationServices.Build.targets') And !Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSIS\Microsoft.SQLServer.IntegrationServices.Build.targets') And !Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v16.0\SSIS\Microsoft.SQLServer.IntegrationServices.Build.targets') And Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v16.0\SSIS\Microsoft.SQLServer.IntegrationServices.Build.targets')" />
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v17.0\SSIS\Microsoft.SQLServer.IntegrationServices.Build.targets" Condition="!Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSIS\Microsoft.SQLServer.IntegrationServices.Build.targets') And !Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSIS\Microsoft.SQLServer.IntegrationServices.Build.targets') And !Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v16.0\SSIS\Microsoft.SQLServer.IntegrationServices.Build.targets') And !Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v16.0\SSIS\Microsoft.SQLServer.IntegrationServices.Build.targets') And Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v17.0\SSIS\Microsoft.SQLServer.IntegrationServices.Build.targets')" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v17.0\SSIS\Microsoft.SQLServer.IntegrationServices.Build.targets" Condition="!Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSIS\Microsoft.SQLServer.IntegrationServices.Build.targets') And !Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSIS\Microsoft.SQLServer.IntegrationServices.Build.targets') And !Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v16.0\SSIS\Microsoft.SQLServer.IntegrationServices.Build.targets') And !Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v16.0\SSIS\Microsoft.SQLServer.IntegrationServices.Build.targets') And !Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v17.0\SSIS\Microsoft.SQLServer.IntegrationServices.Build.targets') And Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v17.0\SSIS\Microsoft.SQLServer.IntegrationServices.Build.targets')" />
 </Project>
