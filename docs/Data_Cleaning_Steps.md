@@ -34,17 +34,17 @@ python src/data_processing/validate_database.py
 - แสดงสถิติและตัวอย่างข้อมูล
 - ตรวจสอบความสมบูรณ์ของข้อมูล
 
-### 3. `Data_Cleaning_Tutorial_Polars.ipynb` (ไฟล์สอน)
-**หน้าที่**: สอนการทำความสะอาดข้อมูลแบบทีละขั้นตอนด้วย Polars
+### 3. `Data_Cleaning_Tutorial_Pandas.ipynb` (ไฟล์สอน)
+**หน้าที่**: สอนการทำความสะอาดข้อมูลแบบทีละขั้นตอนด้วย Pandas
 ```bash
-jupyter notebook Data_Cleaning_Tutorial_Polars.ipynb
+jupyter notebook Data_Cleaning_Tutorial_Pandas.ipynb
 ```
 
 **สิ่งที่ทำ**:
 - แสดงขั้นตอนการทำความสะอาดแบบละเอียด
 - สร้างกราฟและ visualization
 - อธิบายแต่ละขั้นตอนเป็นภาษาไทย
-- ตัวอย่างการใช้งาน Polars (แทน pandas)
+- ตัวอย่างการใช้งาน Pandas
 
 ## 📊 ข้อมูลที่ได้หลังทำความสะอาด
 
@@ -56,12 +56,12 @@ jupyter notebook Data_Cleaning_Tutorial_Polars.ipynb
 5. **SAMPLE_ANALYSES** - ผลวิเคราะห์ตัวอย่าง (0 ตัวอย่าง)
 
 ### ไฟล์ที่สร้างขึ้น
-- `drilling_database.db` - SQLite database
-- `data/processed/collars.csv` - ข้อมูลปากหลุม
-- `data/processed/lithology_logs.csv` - ข้อมูลชั้นหิน
-- `data/processed/sample_analyses.csv` - ข้อมูลการวิเคราะห์ตัวอย่าง
-- `data/processed/rock_types.csv` - ข้อมูลประเภทหิน
-- `data/processed/seam_codes.csv` - ข้อมูลรหัสชั้นถ่านหิน
+- `data/normalized_sql_server/collars.csv` - ข้อมูลปากหลุม
+- `data/normalized_sql_server/lithology_logs.csv` - ข้อมูลชั้นหิน
+- `data/normalized_sql_server/sample_analyses.csv` - ข้อมูลการวิเคราะห์ตัวอย่าง
+- `data/normalized_sql_server/rock_types.csv` - ข้อมูลประเภทหิน
+- `data/normalized_sql_server/seam_codes_lookup.csv` - ข้อมูลรหัสชั้นถ่านหิน
+- `data/normalized_sql_server/rock_codes_lookup.csv` - ข้อมูลรหัสหิน
 
 ## 🔧 การใช้งานไฟล์ Python
 
@@ -71,13 +71,14 @@ jupyter notebook Data_Cleaning_Tutorial_Polars.ipynb
 pip install -r requirements.txt
 
 # 2. รันสคริปต์ทำความสะอาด
-python src/data_processing/clean_and_create_db.py
+python create_proper_normalized_database.py
 
 # 3. ตรวจสอบผลลัพธ์
-python src/data_processing/validate_database.py
+# ตรวจสอบไฟล์ CSV ที่สร้างขึ้นใน data/normalized_sql_server/
 
-# 4. ส่งออกเป็น CSV
-python src/data_processing/export_sqlite_to_csv.py
+# 4. สร้างฐานข้อมูล SQL Server
+sqlcmd -S your_server -d your_database -i sql/create_sql_server_schema.sql
+sqlcmd -S your_server -d your_database -i sql/load_sql_server_data.sql
 ```
 
 ### วิธีใช้ Jupyter Notebook
@@ -85,7 +86,7 @@ python src/data_processing/export_sqlite_to_csv.py
 # 1. เปิด Jupyter Notebook
 jupyter notebook
 
-# 2. เปิดไฟล์ Data_Cleaning_Tutorial_Polars.ipynb
+# 2. เปิดไฟล์ Data_Cleaning_Tutorial_Pandas.ipynb
 # 3. รันทีละ cell ตามลำดับ
 ```
 
@@ -107,12 +108,12 @@ jupyter notebook
 ## 🎯 การใช้งานต่อไป
 
 ### สำหรับการวิเคราะห์
-- ใช้ `drilling_database.db` กับ SQLite
-- ใช้ `sample_sql_queries.sql` สำหรับ query ตัวอย่าง
-- ใช้ `Data_Cleaning_Tutorial_Polars.ipynb` สำหรับการเรียนรู้
+- ใช้ `data/normalized_sql_server/` กับ SQL Server
+- ใช้ `sql/create_sql_server_schema.sql` สำหรับสร้างตาราง
+- ใช้ `Data_Cleaning_Tutorial_Pandas.ipynb` สำหรับการเรียนรู้
 
 ### สำหรับการนำเข้าฐานข้อมูลอื่น
-- ใช้ไฟล์ CSV จาก `data/processed/` สำหรับ SQL Server Import Wizard
+- ใช้ไฟล์ CSV จาก `data/normalized_sql_server/` สำหรับ SQL Server Import Wizard
 - ใช้ SQL scripts จาก `sql/` สำหรับสร้างตารางและความสัมพันธ์
 
 

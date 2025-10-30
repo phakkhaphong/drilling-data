@@ -30,7 +30,7 @@
 - **`docs/PROJECT_STRUCTURE.md`** - ไฟล์นี้ (อธิบายโครงสร้างโปรเจกต์)
 - **`docs/Data_Cleaning_Steps.md`** - ขั้นตอนการทำความสะอาดข้อมูล
 - **`docs/SQL_SERVER_IMPORT_GUIDE.md`** - คู่มือการนำเข้าข้อมูลไปยัง SQL Server
-- **`Data_Cleaning_Tutorial_Polars.ipynb`** - Jupyter Notebook สอนการทำความสะอาดข้อมูลด้วย Polars
+- **`Data_Cleaning_Tutorial_Pandas.ipynb`** - Jupyter Notebook สอนการทำความสะอาดข้อมูลด้วย Pandas
 
 ## Database Schema
 
@@ -58,43 +58,43 @@
 
 ## Workflow
 
-1. **Data Cleaning**
+1. **Data Normalization**
    ```bash
-   python src/data_processing/clean_and_create_db.py
+   python create_proper_normalized_database.py
    ```
    - อ่านข้อมูลจาก data/raw/DH70.xlsx
    - ทำความสะอาดและจัดหมวดหมู่ข้อมูล
-   - สร้างฐานข้อมูล SQLite
+   - สร้างฐานข้อมูลที่ normalized สำหรับ SQL Server
 
-2. **Validate Database**
+2. **Create SQL Server Database**
    ```bash
-   python src/data_processing/validate_database.py
+   sqlcmd -S your_server -d your_database -i sql/create_sql_server_schema.sql
    ```
+   - สร้างตารางใน SQL Server
+   - ตั้งค่า Foreign Keys และ Indexes
+
+3. **Load Data to SQL Server**
+   ```bash
+   sqlcmd -S your_server -d your_database -i sql/load_sql_server_data.sql
+   ```
+   - โหลดข้อมูลจาก CSV files
    - ตรวจสอบความถูกต้องของข้อมูล
+
+4. **Verify Database** (Manual)
+   - ตรวจสอบข้อมูลใน SQL Server
    - ตรวจสอบความสัมพันธ์ระหว่างตาราง
-
-3. **Export to CSV**
-   ```bash
-   python src/data_processing/export_sqlite_to_csv.py
-   ```
-   - ส่งออกข้อมูลเป็นไฟล์ CSV ไปยัง data/processed/
-   - สร้าง SQL import script
-
-4. **Import to SQL Server** (Manual)
-   - ใช้ไฟล์ CSV จาก data/processed/
-   - ใช้ SQL scripts จาก sql/
-   - ดูรายละเอียดใน docs/SQL_SERVER_IMPORT_GUIDE.md
+   - ดูรายละเอียดใน docs/BEST_PRACTICES.md
 
 ## Dependencies
 
 ดูที่ `requirements.txt`:
 - **openpyxl** - อ่านไฟล์ Excel
-- **polars** - ประมวลผลข้อมูล (แทน pandas)
+- **pandas** - ประมวลผลข้อมูล
 - **sqlite3** - จัดการฐานข้อมูล SQLite (built-in)
 
 ## Notes
 
-- โปรเจกต์นี้ใช้ **Polars** แทน Pandas เพื่อแก้ปัญหาการติดตั้งบน Windows ARM64
+- โปรเจกต์นี้ใช้ **Pandas** สำหรับการประมวลผลข้อมูล
 - ข้อมูลถูกส่งออกเป็น CSV เท่านั้น ผู้ใช้ต้องนำเข้าข้อมูลไปยัง SQL Server เอง
 - ชื่อตารางและคอลัมน์ใช้ **snake_case** ตาม ER diagram
 

@@ -1,9 +1,14 @@
 # Core dependencies
-polars>=1.34.0
+pandas>=2.0.0
 openpyxl>=3.1.0
+python-dotenv>=1.0.0
 
-# Database
-sqlite3  # Built-in with Python
+# Database (sqlite3 is built-in, no need to install)
+pyodbc>=4.0.0
+sqlalchemy>=2.0.0
+
+# Optional: For better SQL Server support
+pymssql>=2.2.0
 
 # Optional dependencies for development
 # pytest>=6.0

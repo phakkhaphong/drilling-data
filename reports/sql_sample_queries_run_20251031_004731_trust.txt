@@ -1,0 +1,28 @@
+Msg 207, Level 16, State 1, Server sql-server-hongsa, Line 13
+Invalid column name 'final_depth'.
+Msg 207, Level 16, State 1, Server sql-server-hongsa, Line 14
+Invalid column name 'drilling_date'.
+Msg 209, Level 16, State 1, Server sql-server-hongsa, Line 53
+Ambiguous column name 'rock_code'.
+Msg 209, Level 16, State 1, Server sql-server-hongsa, Line 131
+Ambiguous column name 'rock_code'.
+Msg 207, Level 16, State 1, Server sql-server-hongsa, Procedure coal_quality_summary, Line 30
+Invalid column name 'final_depth'.
+Msg 207, Level 16, State 1, Server sql-server-hongsa, Procedure coal_quality_summary, Line 30
+Invalid column name 'drilling_date'.
+Msg 207, Level 16, State 1, Server sql-server-hongsa, Procedure coal_quality_summary, Line 8
+Invalid column name 'final_depth'.
+Msg 207, Level 16, State 1, Server sql-server-hongsa, Procedure coal_quality_summary, Line 9
+Invalid column name 'drilling_date'.
+Msg 207, Level 16, State 1, Server sql-server-hongsa, Procedure coal_quality_summary, Line 30
+Invalid column name 'final_depth'.
+Msg 207, Level 16, State 1, Server sql-server-hongsa, Procedure coal_quality_summary, Line 30
+Invalid column name 'drilling_date'.
+Msg 207, Level 16, State 1, Server sql-server-hongsa, Procedure coal_quality_summary, Line 8
+Invalid column name 'final_depth'.
+Msg 207, Level 16, State 1, Server sql-server-hongsa, Procedure coal_quality_summary, Line 9
+Invalid column name 'drilling_date'.
+Msg 4413, Level 16, State 1, Server sql-server-hongsa, Line 4
+Could not use view or function 'coal_quality_summary' because of binding errors.
+Msg 209, Level 16, State 1, Server sql-server-hongsa, Line 17
+Ambiguous column name 'rock_code'.

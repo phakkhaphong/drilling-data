@@ -42,25 +42,24 @@ chmod +x wsl_setup.sh wsl_test.sh
 # Activate virtual environment
 source drilling_env/bin/activate
 
-# Create drilling database
-python3 create_drilling_database.py
+# Create normalized database
+python3 create_proper_normalized_database.py
 
-# Create SQLite database
-sqlite3 drilling_database.db < sql/create_drilling_database_schema.sql
+# Create SQL Server database (if available)
+sqlcmd -S your_server -d your_database -i sql/create_sql_server_schema.sql
 
-# Load data
-sqlite3 drilling_database.db < sql/load_drilling_database_data.sql
+# Load data to SQL Server (if available)
+sqlcmd -S your_server -d your_database -i sql/load_sql_server_data.sql
 ```
 
 ## 6. Query the Database
 ```bash
-# Open SQLite
-sqlite3 drilling_database.db
+# Query SQL Server (if available)
+sqlcmd -S your_server -d your_database -Q "SELECT COUNT(*) FROM sample_analyses;"
+sqlcmd -S your_server -d your_database -Q "SELECT TOP 5 * FROM sample_analyses;"
 
-# Run queries
-SELECT COUNT(*) FROM sample_analyses;
-SELECT * FROM sample_analyses_complete LIMIT 5;
-.quit
+# Or check CSV files
+ls -la data/normalized_sql_server/
 ```
 
 ## Troubleshooting
@@ -81,13 +80,13 @@ wsl
 ### If Python packages fail:
 ```bash
 # Reinstall packages
-pip install --upgrade polars openpyxl
+pip install --upgrade pandas openpyxl
 
 # Or recreate virtual environment
 rm -rf drilling_env
 python3 -m venv drilling_env
 source drilling_env/bin/activate
-pip install polars openpyxl
+pip install pandas openpyxl
 ```
 
 ### If database creation fails:

@@ -1,0 +1,12 @@
+check,passed,details
+collars.hole_id not null,True,
+collars.hole_id unique,True,
+lithology_logs have no overlapping intervals per hole,True,
+lithology_logs intervals have depth_from < depth_to,False,invalid intervals=70
+lithology_logs.description matches rock_types.lithology,True,
+lithology_logs.hole_id references collars,True,
+lithology_logs.rock_code references rock_types,False,missing count=140
+sample_analyses intervals covered by lithology intervals,True,
+sample_analyses intervals have depth_from < depth_to,True,
+sample_analyses.hole_id references collars,True,
+sample_analyses.seam_code_quality_original references seam_codes_lookup,True,

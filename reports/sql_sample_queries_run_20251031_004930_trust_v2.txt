@@ -1,0 +1,22 @@
+Msg 207, Level 16, State 1, Server sql-server-hongsa, Line 262
+Invalid column name 'depth_range'.
+Msg 207, Level 16, State 1, Server sql-server-hongsa, Line 264
+Invalid column name 'depth_range'.
+Msg 207, Level 16, State 1, Server sql-server-hongsa, Line 264
+Invalid column name 'depth_range'.
+Msg 207, Level 16, State 1, Server sql-server-hongsa, Line 264
+Invalid column name 'depth_range'.
+Msg 207, Level 16, State 1, Server sql-server-hongsa, Line 264
+Invalid column name 'depth_range'.
+Msg 2714, Level 16, State 3, Server sql-server-hongsa, Procedure coal_quality_summary, Line 2
+There is already an object named 'coal_quality_summary' in the database.
+Msg 207, Level 16, State 1, Server sql-server-hongsa, Procedure coal_quality_summary, Line 30
+Invalid column name 'final_depth'.
+Msg 207, Level 16, State 1, Server sql-server-hongsa, Procedure coal_quality_summary, Line 30
+Invalid column name 'drilling_date'.
+Msg 207, Level 16, State 1, Server sql-server-hongsa, Procedure coal_quality_summary, Line 8
+Invalid column name 'final_depth'.
+Msg 207, Level 16, State 1, Server sql-server-hongsa, Procedure coal_quality_summary, Line 9
+Invalid column name 'drilling_date'.
+Msg 4413, Level 16, State 1, Server sql-server-hongsa, Line 4
+Could not use view or function 'coal_quality_summary' because of binding errors.

@@ -5,22 +5,22 @@
 ### 1. Prerequisites
 - Python 3.8+
 - SQLite3
-- Required Python packages: `polars`, `openpyxl`
+- Required Python packages: `pandas`, `openpyxl`
 
 ### 2. Create Normalized Data
 ```bash
-python create_best_practice_normalization.py
+python create_proper_normalized_database.py
 ```
-This creates all normalized CSV files in `data/normalized_best_practice/`
+This creates all normalized CSV files in `data/normalized_sql_server/`
 
 ### 3. Create Database
 ```bash
-sqlite3 drilling_database.db < sql/create_best_practice_schema.sql
+sqlcmd -S your_server -d your_database -i sql/create_sql_server_schema.sql
 ```
 
 ### 4. Load Data
 ```bash
-sqlite3 drilling_database.db < sql/load_best_practice_data.sql
+sqlcmd -S your_server -d your_database -i sql/load_sql_server_data.sql
 ```
 
 ## Common Queries
